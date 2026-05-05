@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Checkout | SPACE Auto Boost</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background: #0b0b0b;
+    color: #fff;
+    line-height: 1.5;
+}
+
+.container {
+    width: 90%;
+    max-width: 1400px;
+    margin: auto;
+}
+
+header {
+    background: #111;
+    padding: 12px 0;
+    border-bottom: 1px solid #2a2a2a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+}
+
+.back-link {
+    background: transparent;
+    border: 1px solid #e01e1e;
+    color: #e01e1e;
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    background: #e01e1e;
+    color: #fff;
+}
+
+.checkout-container {
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 30px;
+}
+
+.form-section {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #222;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 8px;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: #e01e1e;
+}
+
+.row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.gps-info {
+    margin-top: 10px;
+    padding: 10px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #22c55e;
+    text-align: center;
+    display: none;
+}
+
+.busca-titular {
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    display: none;
+}
+
+.busca-titular.encontrado {
+    background: #1a3a1a;
+    color: #22c55e;
+    display: block;
+}
+
+.busca-titular.nao-encontrado {
+    background: #3a2a1a;
+    color: #f57c00;
+    display: block;
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-option {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.payment-option:hover {
+    border-color: #e01e1e;
+    background: #222;
+}
+
+.payment-option.selected {
+    border-color: #e01e1e;
+    background: rgba(224, 30, 30, 0.1);
+}
+
+.payment-option.saved {
+    border-left: 3px solid #22c55e;
+}
+
+.payment-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.payment-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-icon img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.payment-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.payment-desc {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 20px;
+    padding: 28px;
+    width: 90%;
+    max-width: 450px;
+}
+
+.modal-content h3 {
+    margin-bottom: 20px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    flex: 1;
+    background: #e01e1e;
+    border: none;
+    padding: 12px;
+    border-radius: 40px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-primary:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    flex: 1;
+    background: transparent;
+    border: 1px solid #444;
+    padding: 12px;
+    border-radius: 40px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.resumo-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 20px;
+    padding: 24px;
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.resumo-card h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #222;
+}
+
+.resumo-produto {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.resumo-produto-img {
+    width: 60px;
+    height: 60px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.resumo-produto-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.resumo-produto-info {
+    flex: 1;
+}
+
+.resumo-produto-nome {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.resumo-produto-preco {
+    font-size: 12px;
+    color: #e01e1e;
+}
+
+.resumo-linha {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.resumo-total {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #222;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-finalizar {
+    width: 100%;
+    background: #e01e1e;
+    border: none;
+    padding: 16px;
+    border-radius: 40px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.btn-finalizar:hover {
+    background: #c01818;
+    transform: translateY(-2px);
+}
+
+.login-alert {
+    text-align: center;
+    padding: 60px 20px;
+    background: #111;
+    border-radius: 20px;
+    border: 1px solid #222;
+}
+
+.login-alert a {
+    color: #e01e1e;
+    text-decoration: none;
+}
+
+@media (max-width: 900px) {
+    .checkout-grid {
+        grid-template-columns: 1fr;
+    }
+    .row-2 {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container top-bar">
+        <div class="logo">
+            <img src="imagens/logo.png" alt="SPACE Auto Boost">
+        </div>
+        <a href="carrinho.html" class="back-link">← Voltar ao carrinho</a>
+    </div>
+</header>
+
+<main class="checkout-container" id="checkoutMain">
+    <div style="text-align: center; padding: 40px;">Carregando...</div>
+</main>
+
+<footer style="background: #000; padding: 30px 20px 20px; margin-top: 60px; border-top: 1px solid #222; text-align: center; font-size: 12px; color: #777;">
+    <p>© 2026 SPACE Auto Boost - Todos os direitos reservados</p>
+</footer>
+
+<!-- MODAL DE PAGAMENTO -->
+<div id="pagamentoModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalPagamentoTitle">💳 Pagamento</h3>
+        <div id="modalPagamentoBody"></div>
+        <div class="modal-buttons">
+            <button class="btn-primary" id="confirmarPagamentoBtn" disabled>Confirmar Pagamento</button>
+            <button class="btn-secondary" id="fecharPagamentoModal">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========== BASE DE DADOS DE LOCALIZAÇÃO ==========
+const dadosLocalizacao = {
+    maputo_cidade: { nome: "Maputo Cidade", distritos: { "KaMubukwana": ["Zimpeto", "Magoanine A", "Magoanine B"], "KaMavota": ["Mafalala", "Maxaquene", "Mavalane"], "KaMaxaquene": ["Polana", "Sommerschield", "Coop"], "Nlhamankulu": ["Alto Maé", "Chamanculo", "Central"] } },
+    maputo_provincia: { nome: "Maputo Província", distritos: { "Matola": ["Matola A", "Matola B", "Matola C"], "Boane": ["Boane Sede", "Beluluane"], "Marracuene": ["Marracuene Sede", "Michafutene"], "Manhiça": ["Manhiça Sede", "Calanga"] } },
+    gaza: { nome: "Gaza", distritos: { "Xai-Xai": ["Chongoene", "Chicumbane"], "Chókwè": ["Chókwè Sede", "Lionde"], "Chibuto": ["Chibuto Sede", "Godide"] } },
+    inhambane: { nome: "Inhambane", distritos: { "Inhambane": ["Cidade", "Chamissa"], "Maxixe": ["Maxixe Sede", "Nhambavale"], "Vilankulo": ["Vilankulo Sede"] } },
+    sofala: { nome: "Sofala", distritos: { "Beira": ["Estoril", "Macuti", "Chaimite"], "Dondo": ["Dondo Sede"], "Nhamatanda": ["Nhamatanda Sede"] } },
+    manica: { nome: "Manica", distritos: { "Chimoio": ["Chimoio Sede", "Jardim", "Soalpo"], "Gondola": ["Gondola Sede"], "Manica": ["Manica Sede"] } },
+    tete: { nome: "Tete", distritos: { "Tete": ["Tete Sede", "Filipe"], "Moatize": ["Moatize Sede"], "Changara": ["Changara Sede"] } },
+    zambezia: { nome: "Zambézia", distritos: { "Quelimane": ["Quelimane Sede"], "Mocuba": ["Mocuba Sede"], "Gurué": ["Gurué Sede"] } },
+    nampula: { nome: "Nampula", distritos: { "Nampula": ["Nampula Sede"], "Nacala": ["Nacala Sede"], "Angoche": ["Angoche Sede"] } },
+    niassa: { nome: "Niassa", distritos: { "Lichinga": ["Lichinga Sede"], "Cuamba": ["Cuamba Sede"], "Mandimba": ["Mandimba Sede"] } },
+    cabo_delgado: { nome: "Cabo Delgado", distritos: { "Pemba": ["Pemba Sede"], "Montepuez": ["Montepuez Sede"], "Mocímboa da Praia": ["Mocímboa Sede"] } }
+};
+
+// ========== BASE DE DADOS DE TITULARES ==========
+const baseTitulares = {
+    "842880591": { nome: "João Silva", metodo: "mpesa" },
+    "843333333": { nome: "Maria Santos", metodo: "mpesa" },
+    "844444444": { nome: "Carlos Manhiça", metodo: "mpesa" },
+    "850000000": { nome: "Amélia Mário", metodo: "mpesa" },
+    "862880591": { nome: "Fernando Langa", metodo: "emola" },
+    "863333333": { nome: "Helena Muchanga", metodo: "emola" },
+    "864444444": { nome: "Ricardo Matusse", metodo: "emola" },
+    "870000000": { nome: "Paula Chicamisse", metodo: "emola" },
+    "4242": { nome: "João Silva", metodo: "visa", cartao: "**** **** **** 4242" },
+    "5678": { nome: "Maria Santos", metodo: "visa", cartao: "**** **** **** 5678" },
+    "9012": { nome: "Carlos Manhiça", metodo: "visa", cartao: "**** **** **** 9012" }
+};
+
+function buscarTitular(numero, metodo) {
+    const numLimpo = numero.replace(/\s/g, '');
+    
+    if (metodo === 'mpesa' || metodo === 'emola') {
+        const titular = baseTitulares[numLimpo];
+        if (titular && titular.metodo === metodo) {
+            return { encontrado: true, nome: titular.nome };
+        }
+        return { encontrado: false, nome: null };
+    }
+    
+    if (metodo === 'visa') {
+        const ultimos4 = numLimpo.slice(-4);
+        const titular = baseTitulares[ultimos4];
+        if (titular && titular.metodo === metodo) {
+            return { encontrado: true, nome: titular.nome, cartao: titular.cartao };
+        }
+        return { encontrado: false, nome: null };
+    }
+    
+    return { encontrado: false, nome: null };
+}
+
+let gpsData = null;
+let metodoPagamentoSelecionado = null;
+let dadosPagamento = null;
+let cartoesSalvos = [];
+
+function formatarPreco(valor) {
+    return valor.toLocaleString('pt') + ' MT';
+}
+
+function carregarMetodosSalvos() {
+    const usuarioLogado = JSON.parse(localStorage.getItem('space_usuario_logado'));
+    const pagamentos = JSON.parse(localStorage.getItem('space_pagamentos')) || {};
+    
+    if (usuarioLogado && pagamentos[usuarioLogado.id]) {
+        cartoesSalvos = pagamentos[usuarioLogado.id];
+    } else {
+        cartoesSalvos = [];
+    }
+    return cartoesSalvos;
+}
+
+function adicionarBuscaTitular(inputId, metodo, displayId, confirmBtn) {
+    setTimeout(() => {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        
+        input.addEventListener('input', function() {
+            const numero = this.value.trim();
+            const display = document.getElementById(displayId);
+            if (!display) return;
+            
+            let tamanhoMinimo = (metodo === 'visa') ? 4 : 9;
+            
+            if (numero.length >= tamanhoMinimo) {
+                const resultado = buscarTitular(numero, metodo);
+                
+                if (resultado.encontrado) {
+                    if (metodo === 'visa') {
+                        display.innerHTML = `✅ Titular: ${resultado.nome}<br>💳 Cartão: ${resultado.cartao}`;
+                    } else {
+                        display.innerHTML = `✅ Titular: ${resultado.nome}`;
+                    }
+                    display.className = 'busca-titular encontrado';
+                    if (confirmBtn) confirmBtn.disabled = false;
+                } else {
+                    display.innerHTML = `⚠️ Número não encontrado. Verifique ou continue.`;
+                    display.className = 'busca-titular nao-encontrado';
+                    if (confirmBtn) confirmBtn.disabled = true;
+                }
+            } else {
+                display.style.display = 'none';
+                display.className = 'busca-titular';
+                if (confirmBtn) confirmBtn.disabled = true;
+            }
+        });
+    }, 100);
+}
+
+function abrirModalPagamento(metodo) {
+    metodoPagamentoSelecionado = metodo;
+    const modal = document.getElementById('pagamentoModal');
+    const title = document.getElementById('modalPagamentoTitle');
+    const body = document.getElementById('modalPagamentoBody');
+    const confirmBtn = document.getElementById('confirmarPagamentoBtn');
+    
+    const carrinho = JSON.parse(localStorage.getItem('space_carrinho')) || [];
+    let subtotal = 0;
+    carrinho.forEach(item => subtotal += item.preco * (item.quantidade || 1));
+    const totalFormatado = formatarPreco(subtotal);
+    
+    if (metodo === 'mpesa') {
+        title.innerHTML = '💳 Pagamento via M-Pesa';
+        body.innerHTML = `
+            <div class="form-group">
+                <label>Número de telefone M-Pesa</label>
+                <input type="tel" id="mpesaNumero" placeholder="84 288 0591">
+                <div id="mpesaTitular" class="busca-titular"></div>
+            </div>
+            <div class="form-group">
+                <label>Valor a pagar</label>
+                <input type="text" value="${totalFormatado}" readonly style="background:#333;">
+            </div>
+        `;
+        if (confirmBtn) confirmBtn.disabled = true;
+        adicionarBuscaTitular('mpesaNumero', 'mpesa', 'mpesaTitular', confirmBtn);
+        
+    } else if (metodo === 'emola') {
+        title.innerHTML = '💳 Pagamento via eMola';
+        body.innerHTML = `
+            <div class="form-group">
+                <label>Número de telefone eMola</label>
+                <input type="tel" id="emolaNumero" placeholder="86 288 0591">
+                <div id="emolaTitular" class="busca-titular"></div>
+            </div>
+            <div class="form-group">
+                <label>Valor a pagar</label>
+                <input type="text" value="${totalFormatado}" readonly style="background:#333;">
+            </div>
+        `;
+        if (confirmBtn) confirmBtn.disabled = true;
+        adicionarBuscaTitular('emolaNumero', 'emola', 'emolaTitular', confirmBtn);
+        
+    } else if (metodo === 'visa') {
+        title.innerHTML = '💳 Pagamento com Cartão Visa';
+        body.innerHTML = `
+            <div class="form-group">
+                <label>Número do cartão</label>
+                <input type="text" id="cartaoNumero" placeholder="1234 5678 9012 3456">
+                <div id="cartaoTitular" class="busca-titular"></div>
+            </div>
+            <div class="row-2">
+                <div class="form-group"><label>Validade</label><input type="text" id="cartaoValidade" placeholder="MM/AA"></div>
+                <div class="form-group"><label>CVV</label><input type="password" id="cartaoCvv" placeholder="123" maxlength="3"></div>
+            </div>
+        `;
+        if (confirmBtn) confirmBtn.disabled = true;
+        adicionarBuscaTitular('cartaoNumero', 'visa', 'cartaoTitular', confirmBtn);
+    }
+    
+    modal.classList.add('active');
+}
+
+function finalizarPedido() {
+    const provinciaSelect = document.getElementById('provinciaSelect');
+    const distritoSelect = document.getElementById('distritoSelect');
+    const bairroSelect = document.getElementById('bairroSelect');
+    const rua = document.getElementById('ruaInput').value;
+    const numero = document.getElementById('numeroInput').value;
+    const telefone = document.getElementById('telefoneInput').value;
+    
+    const provinciaTexto = provinciaSelect.options[provinciaSelect.selectedIndex]?.text || "";
+    const distritoTexto = distritoSelect.options[distritoSelect.selectedIndex]?.text || "";
+    const bairroTexto = bairroSelect.options[bairroSelect.selectedIndex]?.text || "";
+    
+    if (!provinciaSelect.value || !distritoTexto || !bairroTexto || !rua || !numero) {
+        alert('⚠️ Preencha todos os campos de localização');
+        return;
+    }
+    
+    if (!telefone) {
+        alert('⚠️ Preencha o telefone de contacto');
+        return;
+    }
+    
+    if (!dadosPagamento) {
+        alert('⚠️ Selecione um método de pagamento');
+        return;
+    }
+    
+    const usuarioLogado = JSON.parse(localStorage.getItem('space_usuario_logado'));
+    const carrinho = JSON.parse(localStorage.getItem('space_carrinho')) || [];
+    let subtotal = 0;
+    carrinho.forEach(item => subtotal += item.preco * (item.quantidade || 1));
+    
+    const enderecoCompleto = `${rua}, ${numero} - ${bairroTexto === "gps" ? "GPS" : bairroTexto}, ${distritoTexto}, ${provinciaTexto}`;
+    
+    const pedido = {
+        id: "#SP" + Date.now(),
+        usuarioId: usuarioLogado.id,
+        data: new Date().toLocaleDateString('pt'),
+        total: formatarPreco(subtotal),
+        itens: carrinho.reduce((sum, i) => sum + (i.quantidade || 1), 0),
+        status: "aguardando",
+        endereco: enderecoCompleto,
+        telefone: telefone,
+        pagamento: dadosPagamento.metodo,
+        titular: dadosPagamento.titular || 'Não informado',
+        gps: gpsData,
+        produtos: carrinho.map(i => ({ nome: i.nome, quantidade: i.quantidade || 1, preco: i.preco }))
+    };
+    
+    let pedidos = JSON.parse(localStorage.getItem('space_pedidos')) || [];
+    pedidos.push(pedido);
+    localStorage.setItem('space_pedidos', JSON.stringify(pedidos));
+    localStorage.removeItem('space_carrinho');
+    
+    alert(`✅ Pedido finalizado com sucesso!\n\nPedido: ${pedido.id}\nTotal: ${pedido.total}\nPagamento: ${pedido.pagamento}\nTitular: ${pedido.titular}\nStatus: Aguardando confirmação\n\nAcompanhe em "Meus Pedidos"`);
+    window.location.href = 'conta.html?page=pedidos';
+}
+
+function carregarCheckout() {
+    const container = document.getElementById('checkoutMain');
+    const carrinho = JSON.parse(localStorage.getItem('space_carrinho')) || [];
+    const usuarioLogado = JSON.parse(localStorage.getItem('space_usuario_logado'));
+    
+    if (!usuarioLogado) {
+        container.innerHTML = `<div class="login-alert"><p>⚠️ Faça login para continuar</p><br><a href="conta.html" class="back-link" style="display:inline-block;">🔐 Fazer login</a></div>`;
+        return;
+    }
+    
+    if (carrinho.length === 0) {
+        container.innerHTML = `<div class="login-alert"><p>🛒 Carrinho vazio</p><br><a href="index.html" class="back-link" style="display:inline-block;">Continuar comprando</a></div>`;
+        return;
+    }
+    
+    const metodosSalvos = carregarMetodosSalvos();
+    
+    let subtotal = 0;
+    carrinho.forEach(item => subtotal += item.preco * (item.quantidade || 1));
+    
+    let produtosHtml = '';
+    carrinho.forEach(item => {
+        const qtd = item.quantidade || 1;
+        produtosHtml += `
+            <div class="resumo-produto">
+                <div class="resumo-produto-img"><img src="${item.imagem}" onerror="this.src='imagens/logo.png'"></div>
+                <div class="resumo-produto-info">
+                    <div class="resumo-produto-nome">${item.nome}</div>
+                    <div class="resumo-produto-preco">${formatarPreco(item.preco)}</div>
+                </div>
+                <div style="text-align:right;"><div>x${qtd}</div><div style="color:#e01e1e;">${formatarPreco(item.preco * qtd)}</div></div>
+            </div>
+        `;
+    });
+    
+    let provinciasHtml = '<option value="">Selecione a província</option>';
+    for (let key in dadosLocalizacao) {
+        provinciasHtml += `<option value="${key}">${dadosLocalizacao[key].nome}</option>`;
+    }
+    
+    let metodosSalvosHtml = '';
+    if (metodosSalvos.length > 0) {
+        metodosSalvosHtml = `
+            <div class="form-section">
+                <div class="section-title"><i class="fas fa-history"></i> Métodos Salvos</div>
+                <div class="payment-methods" id="metodosSalvos">
+                    ${metodosSalvos.map(metodo => `
+                        <div class="payment-option saved" data-payment="${metodo.tipo}" data-titular="${metodo.titular || ''}" onclick="usarMetodoSalvo('${metodo.tipo}', '${metodo.titular || ''}')">
+                            <div class="payment-header">
+                                <div class="payment-icon"><img src="imagens/${metodo.tipo}.png" onerror="this.src='https://placehold.co/40x40?text=${metodo.tipo}'"></div>
+                                <div>
+                                    <div class="payment-name">${metodo.nome}</div>
+                                    <div class="payment-desc">${metodo.titular ? `Titular: ${metodo.titular}` : 'Clique para usar'}</div>
+                                </div>
+                                <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+    
+    const metodosPagamentoHtml = `
+        <div class="form-section">
+            <div class="section-title"><i class="fas fa-plus-circle"></i> Novo Método de Pagamento</div>
+            <div class="payment-methods" id="paymentMethods">
+                <div class="payment-option" data-payment="mpesa" onclick="abrirModalPagamento('mpesa')">
+                    <div class="payment-header">
+                        <div class="payment-icon"><img src="imagens/mpesa.png" alt="M-Pesa" onerror="this.src='https://placehold.co/40x40?text=MP'"></div>
+                        <div><div class="payment-name">M-Pesa</div><div class="payment-desc">Pagamento via M-Pesa (84/85)</div></div>
+                        <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
+                    </div>
+                </div>
+                <div class="payment-option" data-payment="emola" onclick="abrirModalPagamento('emola')">
+                    <div class="payment-header">
+                        <div class="payment-icon"><img src="imagens/emola.png" alt="eMola" onerror="this.src='https://placehold.co/40x40?text=EM'"></div>
+                        <div><div class="payment-name">eMola</div><div class="payment-desc">Pagamento via eMola (86/87)</div></div>
+                        <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
+                    </div>
+                </div>
+                <div class="payment-option" data-payment="visa" onclick="abrirModalPagamento('visa')">
+                    <div class="payment-header">
+                        <div class="payment-icon"><img src="imagens/visa.png" alt="Visa" onerror="this.src='https://placehold.co/40x40?text=Visa'"></div>
+                        <div><div class="payment-name">Cartão Visa</div><div class="payment-desc">Cartão de crédito/débito Visa</div></div>
+                        <i class="fas fa-chevron-right" style="margin-left: auto; color: #666;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    container.innerHTML = `
+        <div class="checkout-grid">
+            <div>
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-map-marker-alt"></i> Localização</div>
+                    <div class="form-group"><label>Província *</label><select id="provinciaSelect">${provinciasHtml}</select></div>
+                    <div class="form-group"><label>Distrito / Cidade *</label><select id="distritoSelect" disabled><option>Selecione primeiro a província</option></select></div>
+                    <div class="form-group"><label>Bairro *</label><select id="bairroSelect" disabled><option>Selecione primeiro o distrito</option><option value="gps">📍 Usar GPS</option></select></div>
+                    <div id="gpsInfo" class="gps-info"></div>
+                    <div class="row-2">
+                        <div class="form-group"><label>Rua / Avenida *</label><input type="text" id="ruaInput" placeholder="Ex: Av. Julius Nyerere"></div>
+                        <div class="form-group"><label>Número *</label><input type="text" id="numeroInput" placeholder="Ex: 1234"></div>
+                    </div>
+                    <div class="form-group"><label>Telefone para contacto *</label><input type="tel" id="telefoneInput" placeholder="84 288 0591"></div>
+                </div>
+                ${metodosSalvosHtml}
+                ${metodosPagamentoHtml}
+            </div>
+            <div>
+                <div class="resumo-card">
+                    <h3>📦 Resumo do Pedido</h3>
+                    ${produtosHtml}
+                    <div class="resumo-linha"><span>Subtotal</span><span>${formatarPreco(subtotal)}</span></div>
+                    <div class="resumo-linha"><span>Entrega</span><span>A calcular</span></div>
+                    <div class="resumo-total"><span>TOTAL</span><span style="color:#e01e1e;">${formatarPreco(subtotal)}</span></div>
+                    <button class="btn-finalizar" id="finalizarBtn">✅ Finalizar Pedido</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    const provinciaSelect = document.getElementById('provinciaSelect');
+    const distritoSelect = document.getElementById('distritoSelect');
+    const bairroSelect = document.getElementById('bairroSelect');
+    const gpsInfo = document.getElementById('gpsInfo');
+    
+    provinciaSelect.addEventListener('change', () => {
+        const provinciaKey = provinciaSelect.value;
+        distritoSelect.innerHTML = '<option value="">Selecione o distrito</option>';
+        bairroSelect.innerHTML = '<option value="">Selecione primeiro o distrito</option><option value="gps">📍 Usar GPS</option>';
+        bairroSelect.disabled = true;
+        
+        if (provinciaKey && dadosLocalizacao[provinciaKey]) {
+            distritoSelect.disabled = false;
+            const distritos = dadosLocalizacao[provinciaKey].distritos;
+            for (let distrito in distritos) {
+                const option = document.createElement("option");
+                option.value = distrito;
+                option.textContent = distrito;
+                distritoSelect.appendChild(option);
+            }
+        }
+    });
+    
+    distritoSelect.addEventListener('change', () => {
+        const provinciaKey = provinciaSelect.value;
+        const distrito = distritoSelect.value;
+        bairroSelect.innerHTML = '<option value="">Selecione o bairro</option><option value="gps">📍 Usar GPS</option>';
+        
+        if (provinciaKey && distrito && dadosLocalizacao[provinciaKey]) {
+            bairroSelect.disabled = false;
+            const bairros = dadosLocalizacao[provinciaKey].distritos[distrito];
+            if (bairros) {
+                bairros.forEach(bairro => {
+                    const option = document.createElement("option");
+                    option.value = bairro;
+                    option.textContent = bairro;
+                    bairroSelect.appendChild(option);
+                });
+            }
+        }
+    });
+    
+    bairroSelect.addEventListener('change', () => {
+        if (bairroSelect.value === "gps") {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    gpsData = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                    gpsInfo.innerHTML = `📍 GPS capturado! Lat: ${gpsData.lat}, Lng: ${gpsData.lng}`;
+                    gpsInfo.style.display = "block";
+                }, function() {
+                    gpsInfo.innerHTML = "❌ Não foi possível obter localização";
+                    gpsInfo.style.display = "block";
+                });
+            } else {
+                gpsInfo.innerHTML = "❌ Seu navegador não suporta GPS";
+                gpsInfo.style.display = "block";
+            }
+        } else {
+            gpsData = null;
+            gpsInfo.style.display = "none";
+        }
+    });
+    
+    const finalizarBtn = document.getElementById('finalizarBtn');
+    if (finalizarBtn) {
+        finalizarBtn.removeEventListener('click', finalizarPedido);
+        finalizarBtn.addEventListener('click', finalizarPedido);
+    }
+}
+
+function usarMetodoSalvo(metodo, titular) {
+    dadosPagamento = { metodo: metodo === 'mpesa' ? 'M-Pesa' : metodo === 'emola' ? 'eMola' : 'Visa', titular: titular };
+    document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+    alert(`✅ Método selecionado: ${dadosPagamento.metodo}\n✅ Titular: ${titular}`);
+}
+
+document.getElementById('confirmarPagamentoBtn')?.addEventListener('click', () => {
+    if (metodoPagamentoSelecionado === 'mpesa') {
+        const numero = document.getElementById('mpesaNumero')?.value;
+        const resultado = buscarTitular(numero, 'mpesa');
+        if (!resultado.encontrado) {
+            alert('Número M-Pesa não encontrado');
+            return;
+        }
+        dadosPagamento = { metodo: 'M-Pesa', numero: numero, titular: resultado.nome };
+    } else if (metodoPagamentoSelecionado === 'emola') {
+        const numero = document.getElementById('emolaNumero')?.value;
+        const resultado = buscarTitular(numero, 'emola');
+        if (!resultado.encontrado) {
+            alert('Número eMola não encontrado');
+            return;
+        }
+        dadosPagamento = { metodo: 'eMola', numero: numero, titular: resultado.nome };
+    } else if (metodoPagamentoSelecionado === 'visa') {
+        const numero = document.getElementById('cartaoNumero')?.value;
+        const validade = document.getElementById('cartaoValidade')?.value;
+        const cvv = document.getElementById('cartaoCvv')?.value;
+        const resultado = buscarTitular(numero, 'visa');
+        if (!resultado.encontrado) {
+            alert('Cartão não encontrado');
+            return;
+        }
+        if (!validade || !cvv) {
+            alert('Preencha a validade e CVV');
+            return;
+        }
+        dadosPagamento = { metodo: 'Visa', numero: resultado.cartao, titular: resultado.nome, validade, cvv };
+    }
+    
+    document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+    document.getElementById('pagamentoModal').classList.remove('active');
+    alert(`✅ Método de pagamento selecionado: ${dadosPagamento.metodo}\n✅ Titular: ${dadosPagamento.titular}`);
+});
+
+document.getElementById('fecharPagamentoModal')?.addEventListener('click', () => {
+    document.getElementById('pagamentoModal').classList.remove('active');
+});
+
+document.getElementById('pagamentoModal')?.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('pagamentoModal')) {
+        document.getElementById('pagamentoModal').classList.remove('active');
+    }
+});
+
+carregarCheckout();
+</script>
+</body>
+</html>

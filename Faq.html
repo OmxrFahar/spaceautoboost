@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>FAQ | SPACE Auto Boost</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background: #0b0b0b;
+    color: #fff;
+    line-height: 1.5;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+header {
+    background: #111;
+    padding: 12px 0;
+    border-bottom: 1px solid #2a2a2a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+}
+
+.back-link {
+    background: transparent;
+    border: 1px solid #e01e1e;
+    color: #e01e1e;
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    background: #e01e1e;
+    color: #fff;
+}
+
+.content {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    font-size: 36px;
+    border-left: 4px solid #e01e1e;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    color: #888;
+    margin-bottom: 40px;
+}
+
+.faq-item {
+    border-bottom: 1px solid #222;
+    margin-bottom: 5px;
+}
+
+.faq-question {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 18px 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-question:hover {
+    color: #e01e1e;
+}
+
+.faq-answer {
+    padding: 0 0 18px 20px;
+    color: #ccc;
+    font-size: 15px;
+    line-height: 1.7;
+    display: none;
+}
+
+.faq-answer.show {
+    display: block;
+}
+
+.faq-icon {
+    font-size: 14px;
+    transition: transform 0.2s;
+}
+
+.faq-icon.rotated {
+    transform: rotate(180deg);
+}
+
+footer {
+    background: #000;
+    padding: 40px 20px 20px;
+    margin-top: 60px;
+    border-top: 1px solid #222;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    gap: 30px;
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 180px;
+}
+
+.footer-col h4 {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.footer-col a {
+    display: block;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.footer-col a:hover {
+    color: #e01e1e;
+}
+
+.footer-col p {
+    font-size: 13px;
+    color: #ccc;
+    margin-bottom: 8px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid #222;
+    font-size: 12px;
+    color: #777;
+}
+
+@media (max-width: 700px) {
+    h1 { font-size: 28px; }
+    .footer-container { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container top-bar">
+        <div class="logo">
+            <img src="imagens/logo.png" alt="SPACE Auto Boost">
+        </div>
+        <a href="index.html" class="back-link">← Voltar à loja</a>
+    </div>
+</header>
+
+<main class="content">
+    <h1>Perguntas Frequentes</h1>
+    <div class="subtitle">Tire suas dúvidas rapidamente</div>
+    
+    <div class="faq-item">
+        <div class="faq-question">🚚 Quanto tempo demora a entrega? <span class="faq-icon">▼</span></div>
+        <div class="faq-answer">Produtos NACIONAIS: 2 a 5 dias úteis. Produtos IMPORTADOS: 20 a 40 dias úteis. Você recebe código de rastreio após o envio.</div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question">💰 Quais formas de pagamento aceitam? <span class="faq-icon">▼</span></div>
+        <div class="faq-answer">Aceitamos M-Pesa, transferência bancária, cartão de crédito (até 3x) e pagamento na entrega para Maputo e Matola.</div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question">🔄 Posso trocar o produto se não gostar? <span class="faq-icon">▼</span></div>
+        <div class="faq-answer">Sim! Você tem 7 dias após o recebimento para solicitar troca ou devolução. O produto deve estar na embalagem original.</div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question">🔧 Como saber se o produto é compatível com meu carro? <span class="faq-icon">▼</span></div>
+        <div class="faq-answer">Entre em contato pelo WhatsApp com a marca, modelo e ano do seu veículo. Respondemos em até 2 horas.</div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question">🌍 Vocês entregam em todo Moçambique? <span class="faq-icon">▼</span></div>
+        <div class="faq-answer">Sim! Entregamos para todas as províncias de Moçambique. O prazo pode variar um pouco para regiões mais remotas.</div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question">📦 Como funciona a importação de produtos? <span class="faq-icon">▼</span></div>
+        <div class="faq-answer">Produtos importados são sob encomenda. Você faz o pedido, nós importamos. Prazo de 20 a 40 dias, com rastreio completo.</div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question">🔒 Meus dados estão seguros? <span class="faq-icon">▼</span></div>
+        <div class="faq-answer">Sim! Usamos criptografia e não armazenamos dados de cartão. Veja nossa <a href="privacidade.html" style="color:#e01e1e;">Política de Privacidade</a>.</div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>Institucional</h4>
+            <a href="sobre.html">Sobre Nós</a>
+            <a href="privacidade.html">Política de Privacidade</a>
+            <a href="termos.html">Termos de Uso</a>
+        </div>
+        <div class="footer-col">
+            <h4>Suporte</h4>
+            <a href="trocas.html">Política de Trocas</a>
+            <a href="envio.html">Política de Envio</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="footer-col">
+            <h4>Contato</h4>
+            <p>📞 +258 84 288 0591</p>
+            <p>✉️ contato@spaceautoboost.com</p>
+            <p>📍 Manica - Chimoio</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 SPACE Auto Boost - Todos os direitos reservados</p>
+    </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+        const answer = q.nextElementSibling;
+        const icon = q.querySelector('.faq-icon');
+        answer.classList.toggle('show');
+        icon.classList.toggle('rotated');
+    });
+});
+</script>
+</body>
+</html>

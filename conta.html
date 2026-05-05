@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Minha Conta | SPACE Auto Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --card-bg: #141414;
+            --sidebar-bg: #0f0f0f;
+            --accent-red: #d11212;
+            --text-white: #ffffff;
+            --text-gray: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            padding: 2rem 1.5rem;
+            border-right: 1px solid #222;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .red { color: var(--accent-red); }
+
+        .user-profile {
+            background: #1a1a1a;
+            padding: 1rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .user-profile:hover {
+            background: #222;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--accent-red), #8b0000);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info h3 { font-size: 0.9rem; }
+        .user-info p { font-size: 0.7rem; color: var(--text-gray); }
+        .badge { font-size: 0.6rem; color: var(--accent-red); background: rgba(209, 18, 18, 0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-gray);
+            text-decoration: none;
+            padding: 0.8rem 0;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .menu a:hover, .menu a.active { color: var(--accent-red); }
+        .logout { margin-top: 2rem; color: var(--accent-red) !important; }
+
+        .content { flex: 1; padding: 2rem 3rem; }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .overview p { color: var(--text-gray); margin-bottom: 2rem; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover { 
+            transform: translateY(-2px); 
+            background: #1a1a1a;
+        }
+
+        .icon-red { color: var(--accent-red); font-size: 1.5rem; margin-bottom: 1rem; }
+        .stat-card h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .stat-card a { color: var(--accent-red); text-decoration: none; font-size: 0.85rem; cursor: pointer; }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .full-width { grid-column: span 2; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .edit-btn, .manage-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #222;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .info-item:hover { background: #1a1a1a; margin: 0 -8px; padding: 12px 8px; border-radius: 8px; }
+
+        .info-item span { font-size: 0.75rem; color: var(--text-gray); }
+        .info-item p { font-size: 0.9rem; }
+        .arrow { margin-left: auto; color: #444; font-size: 0.8rem; }
+
+        /* Payment Card */
+        .payment-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.2s;
+        }
+
+        .payment-card:hover {
+            border-color: var(--accent-red);
+            background: #222;
+        }
+
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-icon img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .payment-details {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .payment-badge {
+            background: var(--accent-red);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 10px;
+        }
+
+        .payment-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-btn {
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 8px;
+        }
+
+        .dropdown-btn:hover {
+            background: #333;
+            color: var(--accent-red);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            min-width: 160px;
+            z-index: 100;
+            margin-top: 5px;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 15px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        .busca-titular {
+            margin-top: 8px;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .busca-titular.encontrado {
+            background: #1a3a1a;
+            color: #22c55e;
+            display: block;
+        }
+
+        .busca-titular.nao-encontrado {
+            background: #3a2a1a;
+            color: #f57c00;
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 20px;
+            padding: 28px;
+            width: 90%;
+            max-width: 450px;
+        }
+
+        .modal-content h3 { margin-bottom: 20px; }
+        .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
+        .btn-primary { background: var(--accent-red); border: none; padding: 12px; border-radius: 40px; color: #fff; font-weight: bold; cursor: pointer; }
+        .btn-secondary { background: transparent; border: 1px solid #444; padding: 12px; border-radius: 40px; color: #ccc; cursor: pointer; }
+
+        .auth-container {
+            max-width: 450px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: 20px;
+            border: 1px solid #222;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #222;
+        }
+
+        .auth-tab {
+            background: none;
+            border: none;
+            color: #888;
+            padding: 12px 0;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .auth-tab.active { color: var(--accent-red); border-bottom: 2px solid var(--accent-red); }
+
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+
+        .auth-card input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 16px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        .pedido-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .pedido-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pedido-id { color: var(--accent-red); font-weight: bold; }
+        
+        .pedido-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .status-aguardando { background: #f57c00; color: #fff; }
+        .status-pago { background: #2e7d32; color: #fff; }
+        .status-enviado { background: #1976d2; color: #fff; }
+        .status-entregue { background: #2e7d32; color: #fff; }
+
+        .pedido-rastreio {
+            margin-top: 10px;
+            padding: 8px;
+            background: #111;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #22c55e;
+        }
+
+        .endereco-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .empty-state { text-align: center; padding: 40px; color: #888; }
+
+        .continue-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #222;
+        }
+
+        .continue-link a {
+            color: #888;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .continue-link a:hover {
+            color: #e01e1e;
+        }
+
+        @media (max-width: 900px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; }
+            .stats-grid, .info-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .content { padding: 1.5rem; }
+            .row-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- TELAS DE AUTENTICAÇÃO -->
+<div id="authContainer" class="auth-container">
+    <div class="auth-card">
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login">Entrar</button>
+            <button class="auth-tab" data-tab="register">Criar Conta</button>
+        </div>
+
+        <div id="loginForm" class="auth-form active">
+            <div id="loginMessage" style="color:#ff5a5a; margin-bottom:16px; display:none;"></div>
+            <input type="email" id="loginEmail" placeholder="E-mail">
+            <input type="password" id="loginSenha" placeholder="Senha">
+            <button class="btn-primary" id="loginBtn" style="width:100%;">Entrar</button>
+        </div>
+
+        <div id="registerForm" class="auth-form">
+            <div id="registerMessage" style="color:#ff5a5a; margin-bottom:16px; display:none;"></div>
+            <input type="text" id="regNome" placeholder="Nome completo">
+            <input type="email" id="regEmail" placeholder="E-mail">
+            <input type="tel" id="regTelefone" placeholder="Telefone">
+            <input type="password" id="regSenha" placeholder="Senha">
+            <input type="password" id="regConfirmar" placeholder="Confirmar senha">
+            <button class="btn-primary" id="registerBtn" style="width:100%;">Criar Conta</button>
+        </div>
+
+        <div class="continue-link">
+            <a href="index.html">🔓 Continuar sem conta (apenas navegação)</a>
+        </div>
+    </div>
+</div>
+
+<!-- DASHBOARD PRINCIPAL -->
+<div id="dashboard" style="display:none;">
+<div class="container">
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="white">SPACE</span> <span class="red">AUTO BOOST</span>
+        </div>
+        
+        <div class="user-profile" id="userProfileClick">
+            <div class="avatar" id="avatarContainer">
+                <span id="avatarText">👤</span>
+            </div>
+            <div class="user-info">
+                <h3 id="sidebarNome">João Silva</h3>
+                <p id="sidebarEmail">joao@email.com</p>
+                <span class="badge" id="sidebarBadge">Cliente desde 2024</span>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <a href="#" class="active" data-page="overview"><i class="fas fa-th-large"></i> Visão Geral</a>
+            <a href="#" data-page="pedidos"><i class="fas fa-box"></i> Meus Pedidos</a>
+            <a href="#" data-page="enderecos"><i class="fas fa-location-dot"></i> Endereços de Entrega</a>
+            <a href="#" data-page="pagamentos"><i class="fas fa-credit-card"></i> Métodos de Pagamento</a>
+            <a href="#" data-page="favoritos"><i class="fas fa-heart"></i> Lista de Desejos</a>
+            <a href="#" data-page="configuracoes"><i class="fas fa-cog"></i> Configurações</a>
+            <a href="#" class="logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sair da Conta</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <div class="top-bar">
+            <div></div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Voltar ao site</a>
+        </div>
+
+        <!-- PÁGINA VISÃO GERAL -->
+        <div id="page-overview" class="page-content">
+            <section class="overview">
+                <h1>Visão Geral</h1>
+                <p>Bem-vindo de volta! Veja um resumo da sua conta.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-shopping-bag icon-red"></i>
+                        <h2 id="totalPedidos">0</h2>
+                        <p>Pedidos realizados</p>
+                        <a href="#" data-page="pedidos">Ver pedidos &rarr;</a>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-truck icon-red"></i>
+                        <h2 id="pedidosAndamento">0</h2>
+                        <p>Pedidos em andamento</p>
+                        <a href="#" data-page="pedidos">Acompanhar &rarr;</a>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-heart icon-red"></i>
+                        <h2 id="totalFavoritos">0</h2>
+                        <p>Itens na lista de desejos</p>
+                        <a href="#" data-page="favoritos">Ver lista &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3>Informações Pessoais</h3>
+                            <button class="edit-btn" id="editPerfilBtn"><i class="fas fa-pencil-alt"></i> Editar</button>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-user"></i>
+                            <div><span>Nome Completo</span><p id="perfilNome">-</p></div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div><span>E-mail</span><p id="perfilEmail">-</p></div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <div><span>Telefone</span><p id="perfilTelefone">-</p></div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3>Endereço Principal</h3>
+                            <button class="edit-btn" id="editEnderecoPrincipalBtn"><i class="fas fa-pencil-alt"></i> Editar</button>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div><span>Endereço</span><p id="enderecoRua">-</p></div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-city"></i>
+                            <div><span>Cidade</span><p id="enderecoCidade">-</p></div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-globe"></i>
+                            <div><span>Província</span><p id="enderecoProvincia">-</p></div>
+                        </div>
+                    </div>
+
+                    <div class="info-card full-width">
+                        <div class="card-header">
+                            <h3>💳 Meus Métodos de Pagamento</h3>
+                            <button class="manage-btn" id="addPagamentoFromOverview"><i class="fas fa-plus"></i> Adicionar</button>
+                        </div>
+                        <div id="pagamentosOverview"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="page-pedidos" class="page-content" style="display:none;">
+            <section class="overview">
+                <h1>Meus Pedidos</h1>
+                <p>Acompanhe todos os seus pedidos</p>
+                <div id="pedidosLista"></div>
+            </section>
+        </div>
+
+        <div id="page-enderecos" class="page-content" style="display:none;">
+            <section class="overview">
+                <h1>Meus Endereços</h1>
+                <p>Gerencie seus endereços de entrega</p>
+                <div id="enderecosLista"></div>
+                <button class="btn-primary" id="addEnderecoPageBtn" style="margin-top:20px;"><i class="fas fa-plus"></i> Novo Endereço</button>
+            </section>
+        </div>
+
+        <div id="page-pagamentos" class="page-content" style="display:none;">
+            <section class="overview">
+                <h1>Métodos de Pagamento</h1>
+                <p>Gerencie seus cartões e formas de pagamento</p>
+                <div id="pagamentosLista"></div>
+                <button class="btn-primary" id="addPagamentoPageBtn" style="margin-top:20px;"><i class="fas fa-plus"></i> Novo Método</button>
+            </section>
+        </div>
+
+        <div id="page-favoritos" class="page-content" style="display:none;">
+            <section class="overview">
+                <h1>Lista de Desejos</h1>
+                <p>Seus produtos favoritos</p>
+                <div id="favoritosLista"></div>
+                <button class="btn-primary" id="addFavoritoPageBtn" style="margin-top:20px;"><i class="fas fa-plus"></i> Adicionar Produto</button>
+            </section>
+        </div>
+
+        <div id="page-configuracoes" class="page-content" style="display:none;">
+            <section class="overview">
+                <h1>Configurações</h1>
+                <p>Preferências da conta</p>
+                <div class="info-card">
+                    <div class="card-header"><h3>🔒 Alterar Senha</h3></div>
+                    <button class="btn-primary" id="changePasswordConfigBtn">Alterar Senha</button>
+                </div>
+                <div class="info-card" style="margin-top:16px;">
+                    <div class="card-header"><h3>🌐 Preferências</h3></div>
+                    <div class="info-item"><span>Idioma</span><p>Português</p></div>
+                    <div class="info-item"><span>Tema</span><p>Escuro</p></div>
+                    <div class="info-item"><span>Notificações</span><p>Ativadas</p></div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</div>
+
+<!-- MODAIS -->
+<div id="editPerfilModal" class="modal">
+    <div class="modal-content">
+        <h3>✎ Editar Perfil</h3>
+        <input type="text" id="editNome" placeholder="Nome completo">
+        <input type="email" id="editEmail" placeholder="E-mail">
+        <input type="tel" id="editTelefone" placeholder="Telefone">
+        <div class="modal-buttons">
+            <button class="btn-primary" id="salvarPerfilModal">Salvar</button>
+            <button class="btn-secondary" id="cancelarPerfilModal">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div id="enderecoModal" class="modal">
+    <div class="modal-content">
+        <h3 id="enderecoModalTitle">📍 Editar Endereço</h3>
+        <input type="text" id="enderecoRuaInput" placeholder="Endereço completo">
+        <input type="text" id="enderecoCidadeInput" placeholder="Cidade">
+        <input type="text" id="enderecoProvinciaInput" placeholder="Província">
+        <div class="modal-buttons">
+            <button class="btn-primary" id="salvarEnderecoModal">Salvar</button>
+            <button class="btn-secondary" id="cancelarEnderecoModal">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div id="senhaModal" class="modal">
+    <div class="modal-content">
+        <h3>🔒 Alterar Senha</h3>
+        <input type="password" id="novaSenha" placeholder="Nova senha">
+        <input type="password" id="confirmarSenha" placeholder="Confirmar senha">
+        <div class="modal-buttons">
+            <button class="btn-primary" id="salvarSenhaModal">Salvar</button>
+            <button class="btn-secondary" id="cancelarSenhaModal">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div id="favoritoModal" class="modal">
+    <div class="modal-content">
+        <h3>❤️ Adicionar aos Favoritos</h3>
+        <input type="text" id="favoritoNome" placeholder="Nome do produto">
+        <input type="text" id="favoritoPreco" placeholder="Preço (ex: 18.900 MT)">
+        <div class="modal-buttons">
+            <button class="btn-primary" id="salvarFavoritoModal">Adicionar</button>
+            <button class="btn-secondary" id="cancelarFavoritoModal">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE PAGAMENTO -->
+<div id="pagamentoModal" class="modal">
+    <div class="modal-content">
+        <h3 id="pagamentoModalTitle">💳 Adicionar Método de Pagamento</h3>
+        <div id="modalPagamentoBody">
+            <div class="form-group">
+                <label>Tipo</label>
+                <select id="pagamentoTipo" style="margin-bottom:16px;">
+                    <option value="mpesa">M-Pesa</option>
+                    <option value="emola">eMola</option>
+                    <option value="visa">Cartão Visa</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-buttons">
+            <button class="btn-primary" id="proximoPagamentoBtn">Próximo</button>
+            <button class="btn-secondary" id="cancelarPagamentoModal">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div id="forgotModal" class="modal">
+    <div class="modal-content">
+        <h3>🔐 Recuperar Senha</h3>
+        <p style="color:#888; margin-bottom:16px;">Digite seu e-mail para receber instruções</p>
+        <input type="email" id="forgotEmail" placeholder="E-mail cadastrado">
+        <div class="modal-buttons">
+            <button class="btn-primary" id="enviarRecuperacaoBtn">Enviar</button>
+            <button class="btn-secondary" id="cancelarForgotModal">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== BASE DE DADOS DE TITULARES (simulação) ==========
+    const baseTitulares = {
+        // M-Pesa
+        "842880591": { nome: "João Silva", metodo: "mpesa" },
+        "843333333": { nome: "Maria Santos", metodo: "mpesa" },
+        "844444444": { nome: "Carlos Manhiça", metodo: "mpesa" },
+        "850000000": { nome: "Amélia Mário", metodo: "mpesa" },
+        // eMola
+        "862880591": { nome: "Fernando Langa", metodo: "emola" },
+        "863333333": { nome: "Helena Muchanga", metodo: "emola" },
+        "864444444": { nome: "Ricardo Matusse", metodo: "emola" },
+        "870000000": { nome: "Paula Chicamisse", metodo: "emola" },
+        // Cartão Visa (últimos 4 dígitos)
+        "4242": { nome: "João Silva", metodo: "visa", cartao: "**** **** **** 4242" },
+        "5678": { nome: "Maria Santos", metodo: "visa", cartao: "**** **** **** 5678" },
+        "9012": { nome: "Carlos Manhiça", metodo: "visa", cartao: "**** **** **** 9012" }
+    };
+
+    function buscarTitular(numero, metodo) {
+        const numLimpo = numero.replace(/\s/g, '');
+        
+        if (metodo === 'mpesa' || metodo === 'emola') {
+            const titular = baseTitulares[numLimpo];
+            if (titular && titular.metodo === metodo) {
+                return { encontrado: true, nome: titular.nome };
+            }
+            return { encontrado: false, nome: null };
+        }
+        
+        if (metodo === 'visa') {
+            const ultimos4 = numLimpo.slice(-4);
+            const titular = baseTitulares[ultimos4];
+            if (titular && titular.metodo === metodo) {
+                return { encontrado: true, nome: titular.nome, cartao: titular.cartao };
+            }
+            return { encontrado: false, nome: null };
+        }
+        
+        return { encontrado: false, nome: null };
+    }
+
+    function adicionarBuscaTitular(inputId, metodo, displayId) {
+        setTimeout(() => {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            
+            input.addEventListener('input', function() {
+                const numero = this.value.trim();
+                const display = document.getElementById(displayId);
+                if (!display) return;
+                
+                let tamanhoMinimo = (metodo === 'visa') ? 4 : 9;
+                
+                if (numero.length >= tamanhoMinimo) {
+                    const resultado = buscarTitular(numero, metodo);
+                    
+                    if (resultado.encontrado) {
+                        if (metodo === 'visa') {
+                            display.innerHTML = `✅ Titular: ${resultado.nome}<br>💳 Cartão: ${resultado.cartao}`;
+                        } else {
+                            display.innerHTML = `✅ Titular: ${resultado.nome}`;
+                        }
+                        display.className = 'busca-titular encontrado';
+                    } else {
+                        display.innerHTML = `⚠️ Número não encontrado. Verifique ou continue.`;
+                        display.className = 'busca-titular nao-encontrado';
+                    }
+                } else {
+                    display.style.display = 'none';
+                    display.className = 'busca-titular';
+                }
+            });
+        }, 100);
+    }
+
+    // ========== BANCO DE DADOS PRINCIPAL ==========
+    let usuarios = JSON.parse(localStorage.getItem('space_usuarios')) || [];
+    let enderecos = JSON.parse(localStorage.getItem('space_enderecos')) || {};
+    let pedidos = JSON.parse(localStorage.getItem('space_pedidos')) || [];
+    let favoritos = JSON.parse(localStorage.getItem('space_favoritos')) || {};
+    let pagamentos = JSON.parse(localStorage.getItem('space_pagamentos')) || {};
+    let usuarioLogado = JSON.parse(localStorage.getItem('space_usuario_logado')) || null;
+
+    if (usuarios.length === 0) {
+        usuarios.push({
+            id: 1,
+            nome: "João Silva",
+            email: "joao@email.com",
+            telefone: "+258 84 123 4567",
+            senha: "123456",
+            dataCadastro: "2024-01-15"
+        });
+        localStorage.setItem('space_usuarios', JSON.stringify(usuarios));
+    }
+
+    if (pedidos.length === 0) {
+        pedidos = [
+            { id: "#SP2401", usuarioId: 1, data: "15/03/2026", total: "18.900 MT", itens: 3, status: "entregue", endereco: "Av. Julius Nyerere, 1234 - Polana, Maputo", telefone: "84 288 0591", pagamento: "M-Pesa", titular: "João Silva", rastreio: null },
+            { id: "#SP2402", usuarioId: 1, data: "28/03/2026", total: "5.900 MT", itens: 2, status: "entregue", endereco: "Av. 24 de Julho, 567 - Coop, Maputo", telefone: "84 288 0591", pagamento: "Cartão", titular: "João Silva", rastreio: null },
+            { id: "#SP2403", usuarioId: 1, data: "10/04/2026", total: "27.900 MT", itens: 4, status: "pago", endereco: "Rua da Paz, 89 - Chimoio, Manica", telefone: "84 288 0591", pagamento: "eMola", titular: "João Silva", rastreio: null }
+        ];
+        localStorage.setItem('space_pedidos', JSON.stringify(pedidos));
+    }
+
+    if (Object.keys(enderecos).length === 0) {
+        enderecos[1] = [{ rua: "Av. Julius Nyerere, 1234", cidade: "Maputo", provincia: "Maputo Cidade", principal: true }];
+        localStorage.setItem('space_enderecos', JSON.stringify(enderecos));
+    }
+
+    if (Object.keys(favoritos).length === 0) {
+        favoritos[1] = [
+            { nome: "Intercooler HKS", preco: "34.500 MT" },
+            { nome: "Parachoque Quantum", preco: "18.900 MT" }
+        ];
+        localStorage.setItem('space_favoritos', JSON.stringify(favoritos));
+    }
+
+    if (Object.keys(pagamentos).length === 0) {
+        pagamentos[1] = [];
+        localStorage.setItem('space_pagamentos', JSON.stringify(pagamentos));
+    }
+
+    function saveUsers() { localStorage.setItem('space_usuarios', JSON.stringify(usuarios)); }
+    function saveEnderecos() { localStorage.setItem('space_enderecos', JSON.stringify(enderecos)); }
+    function savePedidos() { localStorage.setItem('space_pedidos', JSON.stringify(pedidos)); }
+    function saveFavoritos() { localStorage.setItem('space_favoritos', JSON.stringify(favoritos)); }
+    function savePagamentos() { localStorage.setItem('space_pagamentos', JSON.stringify(pagamentos)); }
+
+    function formatarIniciais(nome) {
+        if (!nome) return "👤";
+        const partes = nome.trim().split(' ');
+        if (partes.length >= 2) return partes[0].charAt(0) + partes[1].charAt(0);
+        return nome.charAt(0).toUpperCase();
+    }
+
+    function carregarAvatar() {
+        const avatarContainer = document.getElementById('avatarContainer');
+        const avatarSalvo = localStorage.getItem('space_avatar');
+        const nome = usuarioLogado ? usuarioLogado.nome : '';
+        
+        if (avatarContainer) {
+            if (avatarSalvo) {
+                avatarContainer.innerHTML = `<img src="${avatarSalvo}" style="width:45px; height:45px; border-radius:50%; object-fit:cover;">`;
+            } else {
+                avatarContainer.innerHTML = `<span id="avatarText" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;">${formatarIniciais(nome)}</span>`;
+            }
+        }
+    }
+
+    function getStatusText(status) {
+        const map = {
+            'aguardando': '⏳ Aguardando pagamento',
+            'pago': '✅ Pagamento confirmado',
+            'enviado': '🚚 Enviado',
+            'entregue': '📦 Entregue'
+        };
+        return map[status] || status;
+    }
+
+    function getStatusClass(status) {
+        const map = {
+            'aguardando': 'aguardando',
+            'pago': 'pago',
+            'enviado': 'enviado',
+            'entregue': 'entregue'
+        };
+        return map[status] || 'aguardando';
+    }
+
+    function carregarPedidos() {
+        const container = document.getElementById('pedidosLista');
+        if (!container) return;
+        const meusPedidos = pedidos.filter(p => p.usuarioId === usuarioLogado.id);
+        
+        if (meusPedidos.length === 0) {
+            container.innerHTML = '<div class="empty-state">📦 Nenhum pedido encontrado</div>';
+            return;
+        }
+        
+        container.innerHTML = meusPedidos.map(p => `
+            <div class="pedido-card">
+                <div class="pedido-header">
+                    <span class="pedido-id">${p.id}</span>
+                    <span class="pedido-status status-${getStatusClass(p.status)}">${getStatusText(p.status)}</span>
+                </div>
+                <div>📅 ${p.data}</div>
+                <div>📦 ${p.itens} produto(s)</div>
+                <div style="font-weight:bold; margin-top:8px;">💰 ${p.total}</div>
+                <div style="font-size:12px; color:#888; margin-top:4px;">📍 ${p.endereco || 'Endereço não informado'}</div>
+                <div style="font-size:12px; color:#888;">📞 ${p.telefone || 'Telefone não informado'}</div>
+                <div style="font-size:12px; color:#888;">💳 Pagamento: ${p.pagamento || 'Não informado'}</div>
+                <div style="font-size:12px; color:#888;">👤 Titular: ${p.titular || 'Não informado'}</div>
+                ${p.status === 'enviado' && p.rastreio ? `<div class="pedido-rastreio">📦 Código de rastreio: ${p.rastreio}</div>` : ''}
+            </div>
+        `).join('');
+    }
+
+    function carregarPagamentosOverview() {
+        const container = document.getElementById('pagamentosOverview');
+        const userPagamentos = pagamentos[usuarioLogado.id] || [];
+        
+        if (userPagamentos.length === 0) {
+            container.innerHTML = '<div class="empty-state" style="padding:20px;">💳 Nenhum método cadastrado</div>';
+            return;
+        }
+        
+        container.innerHTML = userPagamentos.map((pag, idx) => {
+            let iconHtml = '';
+            if (pag.tipo === 'mpesa') {
+                iconHtml = '<img src="imagens/mpesa.png" alt="M-Pesa" onerror="this.src=\'https://placehold.co/40x40?text=MP\'">';
+            } else if (pag.tipo === 'emola') {
+                iconHtml = '<img src="imagens/emola.png" alt="eMola" onerror="this.src=\'https://placehold.co/40x40?text=EM\'">';
+            } else if (pag.tipo === 'visa') {
+                iconHtml = '<img src="imagens/visa.png" alt="Visa" onerror="this.src=\'https://placehold.co/40x40?text=Visa\'">';
+            }
+            
+            return `
+                <div class="payment-card">
+                    <div class="payment-icon">${iconHtml}</div>
+                    <div class="payment-info">
+                        <div class="payment-name">${pag.nome}</div>
+                        <div class="payment-details">${pag.tipo === 'mpesa' ? 'Pagamento via M-Pesa' : pag.tipo === 'emola' ? 'Pagamento via eMola' : 'Cartão de crédito/débito'}</div>
+                    </div>
+                    <div class="payment-actions">
+                        ${pag.principal ? '<span class="payment-badge">Padrão</span>' : ''}
+                        <div class="dropdown">
+                            <button class="dropdown-btn" onclick="togglePagamentoDropdown(event, ${idx})">⋮</button>
+                            <div id="pagamento-dropdown-${idx}" class="dropdown-content">
+                                ${!pag.principal ? '<a href="#" onclick="definirPagamentoPrincipal(' + idx + '); return false;">⭐ Definir como padrão</a>' : ''}
+                                <a href="#" onclick="removerPagamento(' + idx + '); return false;">🗑️ Remover</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function togglePagamentoDropdown(event, idx) {
+        event.stopPropagation();
+        document.querySelectorAll('.dropdown-content').forEach(d => d.style.display = 'none');
+        const dropdown = document.getElementById(`pagamento-dropdown-${idx}`);
+        if (dropdown) {
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        }
+    }
+
+    function carregarEnderecos() {
+        const container = document.getElementById('enderecosLista');
+        const userEnderecos = enderecos[usuarioLogado.id] || [];
+        if (userEnderecos.length === 0) {
+            container.innerHTML = '<div class="empty-state">📍 Nenhum endereço cadastrado</div>';
+            return;
+        }
+        container.innerHTML = userEnderecos.map((end, idx) => `
+            <div class="endereco-card">
+                <div>
+                    <div><strong>${end.rua}</strong></div>
+                    <div>${end.cidade}, ${end.provincia}</div>
+                    ${end.principal ? '<span style="color:#d11212; font-size:12px;">⭐ Principal</span>' : ''}
+                </div>
+                <div>
+                    <button class="edit-btn" onclick="editarEnderecoModal(${idx})"><i class="fas fa-pencil-alt"></i></button>
+                    <button class="edit-btn" onclick="removerEndereco(${idx})" style="margin-left:8px;"><i class="fas fa-trash"></i></button>
+                    ${!end.principal ? `<button class="edit-btn" onclick="definirPrincipal(${idx})" style="margin-left:8px;"><i class="fas fa-star"></i></button>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function carregarPagamentos() {
+        const container = document.getElementById('pagamentosLista');
+        const userPagamentos = pagamentos[usuarioLogado.id] || [];
+        if (userPagamentos.length === 0) {
+            container.innerHTML = '<div class="empty-state">💳 Nenhum método de pagamento cadastrado</div>';
+            return;
+        }
+        container.innerHTML = userPagamentos.map((pag, idx) => {
+            let iconHtml = '';
+            if (pag.tipo === 'mpesa') {
+                iconHtml = '<img src="imagens/mpesa.png" onerror="this.src=\'https://placehold.co/40x40?text=MP\'">';
+            } else if (pag.tipo === 'emola') {
+                iconHtml = '<img src="imagens/emola.png" onerror="this.src=\'https://placehold.co/40x40?text=EM\'">';
+            } else if (pag.tipo === 'visa') {
+                iconHtml = '<img src="imagens/visa.png" onerror="this.src=\'https://placehold.co/40x40?text=Visa\'">';
+            }
+            
+            return `
+                <div class="payment-card">
+                    <div class="payment-icon">${iconHtml}</div>
+                    <div class="payment-info">
+                        <div class="payment-name">${pag.nome}</div>
+                        <div class="payment-details">${pag.tipo === 'mpesa' ? 'Pagamento via M-Pesa' : pag.tipo === 'emola' ? 'Pagamento via eMola' : 'Cartão de crédito/débito'}</div>
+                    </div>
+                    <div class="payment-actions">
+                        ${!pag.principal ? `<button class="edit-btn" onclick="definirPagamentoPrincipal(${idx})" style="margin-right:8px;"><i class="fas fa-star"></i> Definir padrão</button>` : ''}
+                        <button class="edit-btn" onclick="removerPagamento(${idx})"><i class="fas fa-trash"></i> Remover</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function carregarFavoritos() {
+        const container = document.getElementById('favoritosLista');
+        const userFavoritos = favoritos[usuarioLogado.id] || [];
+        if (userFavoritos.length === 0) {
+            container.innerHTML = '<div class="empty-state">❤️ Nenhum produto favorito</div>';
+            return;
+        }
+        container.innerHTML = userFavoritos.map((fav, idx) => `
+            <div class="endereco-card">
+                <div>
+                    <div><strong>${fav.nome}</strong></div>
+                    <div>${fav.preco}</div>
+                </div>
+                <div>
+                    <button class="edit-btn" onclick="removerFavorito(${idx})"><i class="fas fa-trash"></i> Remover</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function atualizarDashboard() {
+        if (!usuarioLogado) return;
+        document.getElementById('sidebarNome').textContent = usuarioLogado.nome;
+        document.getElementById('sidebarEmail').textContent = usuarioLogado.email;
+        carregarAvatar();
+        const ano = usuarioLogado.dataCadastro ? usuarioLogado.dataCadastro.split('-')[0] : "2024";
+        document.getElementById('sidebarBadge').textContent = `Cliente desde ${ano}`;
+        document.getElementById('perfilNome').textContent = usuarioLogado.nome;
+        document.getElementById('perfilEmail').textContent = usuarioLogado.email;
+        document.getElementById('perfilTelefone').textContent = usuarioLogado.telefone;
+        const meusPedidos = pedidos.filter(p => p.usuarioId === usuarioLogado.id);
+        const andamento = meusPedidos.filter(p => p.status === 'aguardando' || p.status === 'pago').length;
+        const userFavoritos = favoritos[usuarioLogado.id] || [];
+        document.getElementById('totalPedidos').textContent = meusPedidos.length;
+        document.getElementById('pedidosAndamento').textContent = andamento;
+        document.getElementById('totalFavoritos').textContent = userFavoritos.length;
+        const endP = enderecos[usuarioLogado.id]?.find(e => e.principal) || enderecos[usuarioLogado.id]?.[0];
+        if (endP) {
+            document.getElementById('enderecoRua').textContent = endP.rua || '-';
+            document.getElementById('enderecoCidade').textContent = endP.cidade || '-';
+            document.getElementById('enderecoProvincia').textContent = endP.provincia || '-';
+        }
+        carregarPagamentosOverview();
+    }
+
+    function editarEnderecoModal(idx) {
+        const end = enderecos[usuarioLogado.id][idx];
+        document.getElementById('enderecoModalTitle').textContent = '✎ Editar Endereço';
+        document.getElementById('enderecoRuaInput').value = end.rua;
+        document.getElementById('enderecoCidadeInput').value = end.cidade;
+        document.getElementById('enderecoProvinciaInput').value = end.provincia;
+        document.getElementById('enderecoModal').classList.add('active');
+    }
+
+    window.editarEnderecoModal = editarEnderecoModal;
+    window.removerEndereco = function(idx) {
+        if (confirm('Remover este endereço?')) {
+            enderecos[usuarioLogado.id].splice(idx, 1);
+            saveEnderecos();
+            carregarEnderecos();
+            atualizarDashboard();
+        }
+    };
+    window.definirPrincipal = function(idx) {
+        enderecos[usuarioLogado.id].forEach((e, i) => e.principal = (i === idx));
+        saveEnderecos();
+        carregarEnderecos();
+        atualizarDashboard();
+    };
+    window.removerFavorito = function(idx) {
+        favoritos[usuarioLogado.id].splice(idx, 1);
+        saveFavoritos();
+        carregarFavoritos();
+        atualizarDashboard();
+    };
+    window.removerPagamento = function(idx) {
+        pagamentos[usuarioLogado.id].splice(idx, 1);
+        savePagamentos();
+        carregarPagamentos();
+        carregarPagamentosOverview();
+    };
+    window.definirPagamentoPrincipal = function(idx) {
+        pagamentos[usuarioLogado.id].forEach((p, i) => p.principal = (i === idx));
+        savePagamentos();
+        carregarPagamentos();
+        carregarPagamentosOverview();
+    };
+
+    function mudarPagina(page) {
+        document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
+        document.getElementById(`page-${page}`).style.display = 'block';
+        document.querySelectorAll('.menu a').forEach(m => m.classList.remove('active'));
+        document.querySelector(`.menu a[data-page="${page}"]`).classList.add('active');
+        if (page === 'pedidos') carregarPedidos();
+        if (page === 'enderecos') carregarEnderecos();
+        if (page === 'favoritos') carregarFavoritos();
+        if (page === 'pagamentos') carregarPagamentos();
+    }
+
+    function fazerLogin() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const senha = document.getElementById('loginSenha').value;
+        const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+        
+        if (usuario) {
+            usuarioLogado = usuario;
+            localStorage.setItem('space_usuario_logado', JSON.stringify(usuario));
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            atualizarDashboard();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get('redirect');
+            if (redirect === 'checkout') {
+                const carrinhoSalvo = localStorage.getItem('carrinho_antes_login');
+                if (carrinhoSalvo) {
+                    localStorage.setItem('space_carrinho', carrinhoSalvo);
+                    localStorage.removeItem('carrinho_antes_login');
+                }
+                window.location.href = 'checkout.html';
+            }
+        } else {
+            const msg = document.getElementById('loginMessage');
+            msg.textContent = '❌ E-mail ou senha incorretos';
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
+        }
+    }
+
+    function fazerCadastro() {
+        const nome = document.getElementById('regNome').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const telefone = document.getElementById('regTelefone').value.trim();
+        const senha = document.getElementById('regSenha').value;
+        const confirmar = document.getElementById('regConfirmar').value;
+        
+        if (!nome || !email || !senha) { alert('Preencha todos os campos'); return; }
+        if (senha !== confirmar) { alert('Senhas não coincidem'); return; }
+        if (usuarios.find(u => u.email === email)) { alert('E-mail já cadastrado'); return; }
+        
+        const novoUsuario = {
+            id: usuarios.length + 1, nome, email, telefone, senha,
+            dataCadastro: new Date().toISOString().split('T')[0]
+        };
+        usuarios.push(novoUsuario);
+        saveUsers();
+        alert('Conta criada! Faça login.');
+        document.querySelector('.auth-tab[data-tab="login"]').click();
+    }
+
+    function fazerLogout() {
+        const carrinhoAtual = localStorage.getItem('space_carrinho');
+        localStorage.removeItem('space_usuario_logado');
+        usuarioLogado = null;
+        if (carrinhoAtual) localStorage.setItem('space_carrinho', carrinhoAtual);
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('authContainer').style.display = 'block';
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginSenha').value = '';
+        const msg = document.getElementById('loginMessage');
+        if (msg) msg.style.display = 'none';
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.getAttribute('data-tab') === 'login') tab.classList.add('active');
+        });
+        document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+        document.getElementById('loginForm').classList.add('active');
+    }
+
+    function salvarEndereco() {
+        const rua = document.getElementById('enderecoRuaInput').value;
+        const cidade = document.getElementById('enderecoCidadeInput').value;
+        const provincia = document.getElementById('enderecoProvinciaInput').value;
+        if (!rua || !cidade) { alert('Preencha o endereço e cidade'); return; }
+        const enderecoExistente = enderecos[usuarioLogado.id]?.find(e => e.principal);
+        if (enderecoExistente) {
+            enderecoExistente.rua = rua;
+            enderecoExistente.cidade = cidade;
+            enderecoExistente.provincia = provincia;
+        } else {
+            if (!enderecos[usuarioLogado.id]) enderecos[usuarioLogado.id] = [];
+            enderecos[usuarioLogado.id].push({ rua, cidade, provincia, principal: true });
+        }
+        saveEnderecos();
+        carregarEnderecos();
+        atualizarDashboard();
+        document.getElementById('enderecoModal').classList.remove('active');
+    }
+
+    function adicionarFavorito() {
+        const nome = document.getElementById('favoritoNome').value;
+        const preco = document.getElementById('favoritoPreco').value;
+        if (!nome || !preco) { alert('Preencha o nome e preço'); return; }
+        if (!favoritos[usuarioLogado.id]) favoritos[usuarioLogado.id] = [];
+        favoritos[usuarioLogado.id].push({ nome, preco });
+        saveFavoritos();
+        carregarFavoritos();
+        atualizarDashboard();
+        document.getElementById('favoritoModal').classList.remove('active');
+        document.getElementById('favoritoNome').value = '';
+        document.getElementById('favoritoPreco').value = '';
+    }
+
+    let metodoPagamentoTemp = null;
+    let step = 1;
+
+    document.getElementById('addPagamentoPageBtn')?.addEventListener('click', () => {
+        metodoPagamentoTemp = null;
+        step = 1;
+        document.getElementById('pagamentoModalTitle').textContent = '💳 Adicionar Método de Pagamento';
+        document.getElementById('modalPagamentoBody').innerHTML = `
+            <div class="form-group">
+                <label>Tipo</label>
+                <select id="pagamentoTipo" style="margin-bottom:16px;">
+                    <option value="mpesa">M-Pesa</option>
+                    <option value="emola">eMola</option>
+                    <option value="visa">Cartão Visa</option>
+                </select>
+            </div>
+        `;
+        document.getElementById('proximoPagamentoBtn').textContent = 'Próximo';
+        document.getElementById('pagamentoModal').classList.add('active');
+    });
+
+    document.getElementById('addPagamentoFromOverview')?.addEventListener('click', () => {
+        metodoPagamentoTemp = null;
+        step = 1;
+        document.getElementById('pagamentoModalTitle').textContent = '💳 Adicionar Método de Pagamento';
+        document.getElementById('modalPagamentoBody').innerHTML = `
+            <div class="form-group">
+                <label>Tipo</label>
+                <select id="pagamentoTipo" style="margin-bottom:16px;">
+                    <option value="mpesa">M-Pesa</option>
+                    <option value="emola">eMola</option>
+                    <option value="visa">Cartão Visa</option>
+                </select>
+            </div>
+        `;
+        document.getElementById('proximoPagamentoBtn').textContent = 'Próximo';
+        document.getElementById('pagamentoModal').classList.add('active');
+    });
+
+    document.getElementById('proximoPagamentoBtn')?.addEventListener('click', () => {
+        if (step === 1) {
+            const tipo = document.getElementById('pagamentoTipo').value;
+            metodoPagamentoTemp = tipo;
+            step = 2;
+            
+            let bodyHtml = '';
+            if (tipo === 'mpesa') {
+                document.getElementById('pagamentoModalTitle').textContent = '💳 Adicionar M-Pesa';
+                bodyHtml = `
+                    <div class="form-group">
+                        <label>Número de telefone M-Pesa</label>
+                        <input type="tel" id="pagamentoMpesaNumero" placeholder="84 288 0591">
+                        <div id="pagamentoMpesaTitular" class="busca-titular"></div>
+                    </div>
+                `;
+                setTimeout(() => adicionarBuscaTitular('pagamentoMpesaNumero', 'mpesa', 'pagamentoMpesaTitular'), 100);
+            } else if (tipo === 'emola') {
+                document.getElementById('pagamentoModalTitle').textContent = '💳 Adicionar eMola';
+                bodyHtml = `
+                    <div class="form-group">
+                        <label>Número de telefone eMola</label>
+                        <input type="tel" id="pagamentoEmolaNumero" placeholder="86 288 0591">
+                        <div id="pagamentoEmolaTitular" class="busca-titular"></div>
+                    </div>
+                `;
+                setTimeout(() => adicionarBuscaTitular('pagamentoEmolaNumero', 'emola', 'pagamentoEmolaTitular'), 100);
+            } else if (tipo === 'visa') {
+                document.getElementById('pagamentoModalTitle').textContent = '💳 Adicionar Cartão Visa';
+                bodyHtml = `
+                    <div class="form-group">
+                        <label>Número do cartão</label>
+                        <input type="text" id="pagamentoVisaNumero" placeholder="1234 5678 9012 3456">
+                        <div id="pagamentoVisaTitular" class="busca-titular"></div>
+                    </div>
+                    <div class="row-2">
+                        <div class="form-group"><label>Validade</label><input type="text" id="pagamentoVisaValidade" placeholder="MM/AA"></div>
+                        <div class="form-group"><label>CVV</label><input type="password" id="pagamentoVisaCvv" placeholder="123" maxlength="3"></div>
+                    </div>
+                `;
+                setTimeout(() => adicionarBuscaTitular('pagamentoVisaNumero', 'visa', 'pagamentoVisaTitular'), 100);
+            }
+            
+            document.getElementById('modalPagamentoBody').innerHTML = bodyHtml;
+            document.getElementById('proximoPagamentoBtn').textContent = 'Salvar';
+        } else {
+            const tipo = metodoPagamentoTemp;
+            if (!pagamentos[usuarioLogado.id]) pagamentos[usuarioLogado.id] = [];
+            
+            let nome = '';
+            let titular = '';
+            
+            if (tipo === 'mpesa') {
+                const numero = document.getElementById('pagamentoMpesaNumero')?.value;
+                const resultado = buscarTitular(numero, 'mpesa');
+                if (!resultado.encontrado) {
+                    alert('Número M-Pesa não encontrado');
+                    return;
+                }
+                nome = 'M-Pesa';
+                titular = resultado.nome;
+            } else if (tipo === 'emola') {
+                const numero = document.getElementById('pagamentoEmolaNumero')?.value;
+                const resultado = buscarTitular(numero, 'emola');
+                if (!resultado.encontrado) {
+                    alert('Número eMola não encontrado');
+                    return;
+                }
+                nome = 'eMola';
+                titular = resultado.nome;
+            } else if (tipo === 'visa') {
+                const numero = document.getElementById('pagamentoVisaNumero')?.value;
+                const validade = document.getElementById('pagamentoVisaValidade')?.value;
+                const cvv = document.getElementById('pagamentoVisaCvv')?.value;
+                const resultado = buscarTitular(numero, 'visa');
+                if (!resultado.encontrado) {
+                    alert('Cartão não encontrado');
+                    return;
+                }
+                if (!validade || !cvv) {
+                    alert('Preencha a validade e CVV');
+                    return;
+                }
+                nome = 'Visa';
+                titular = resultado.nome;
+            }
+            
+            pagamentos[usuarioLogado.id].push({ 
+                tipo: tipo, 
+                nome: nome,
+                titular: titular,
+                principal: pagamentos[usuarioLogado.id].length === 0 
+            });
+            savePagamentos();
+            carregarPagamentos();
+            carregarPagamentosOverview();
+            document.getElementById('pagamentoModal').classList.remove('active');
+            step = 1;
+            metodoPagamentoTemp = null;
+            alert(`✅ ${nome} adicionado com sucesso!\n✅ Titular: ${titular}`);
+        }
+    });
+
+    function alterarSenha() {
+        const nova = document.getElementById('novaSenha').value;
+        const confirmar = document.getElementById('confirmarSenha').value;
+        if (!nova || nova !== confirmar) { alert('Senhas não coincidem'); return; }
+        usuarioLogado.senha = nova;
+        const idx = usuarios.findIndex(u => u.id === usuarioLogado.id);
+        if (idx !== -1) usuarios[idx] = usuarioLogado;
+        saveUsers();
+        localStorage.setItem('space_usuario_logado', JSON.stringify(usuarioLogado));
+        alert('Senha alterada com sucesso!');
+        document.getElementById('senhaModal').classList.remove('active');
+        document.getElementById('novaSenha').value = '';
+        document.getElementById('confirmarSenha').value = '';
+    }
+
+    function recuperarSenha() {
+        const email = document.getElementById('forgotEmail').value;
+        const usuario = usuarios.find(u => u.email === email);
+        if (usuario) alert(`🔐 Instruções enviadas para ${email}\n(Simulação)`);
+        else alert('E-mail não encontrado');
+        document.getElementById('forgotModal').classList.remove('active');
+    }
+
+    // ========== EVENTOS ==========
+    document.getElementById('loginBtn')?.addEventListener('click', fazerLogin);
+    document.getElementById('registerBtn')?.addEventListener('click', fazerCadastro);
+    document.getElementById('logoutBtn')?.addEventListener('click', fazerLogout);
+    document.getElementById('userProfileClick')?.addEventListener('click', () => { window.location.href = 'editar-perfil.html'; });
+    document.getElementById('editPerfilBtn')?.addEventListener('click', () => { window.location.href = 'editar-perfil.html'; });
+    document.getElementById('changePasswordConfigBtn')?.addEventListener('click', () => { document.getElementById('senhaModal').classList.add('active'); });
+    document.getElementById('salvarSenhaModal')?.addEventListener('click', alterarSenha);
+    document.getElementById('cancelarSenhaModal')?.addEventListener('click', () => document.getElementById('senhaModal').classList.remove('active'));
+    document.getElementById('addEnderecoPageBtn')?.addEventListener('click', () => {
+        document.getElementById('enderecoModalTitle').textContent = '📍 Novo Endereço';
+        document.getElementById('enderecoRuaInput').value = '';
+        document.getElementById('enderecoCidadeInput').value = '';
+        document.getElementById('enderecoProvinciaInput').value = '';
+        document.getElementById('enderecoModal').classList.add('active');
+    });
+    document.getElementById('salvarEnderecoModal')?.addEventListener('click', salvarEndereco);
+    document.getElementById('cancelarEnderecoModal')?.addEventListener('click', () => document.getElementById('enderecoModal').classList.remove('active'));
+    document.getElementById('addFavoritoPageBtn')?.addEventListener('click', () => document.getElementById('favoritoModal').classList.add('active'));
+    document.getElementById('salvarFavoritoModal')?.addEventListener('click', adicionarFavorito);
+    document.getElementById('cancelarFavoritoModal')?.addEventListener('click', () => document.getElementById('favoritoModal').classList.remove('active'));
+    document.getElementById('cancelarPagamentoModal')?.addEventListener('click', () => {
+        document.getElementById('pagamentoModal').classList.remove('active');
+        step = 1;
+        metodoPagamentoTemp = null;
+    });
+    document.getElementById('forgotBtn')?.addEventListener('click', (e) => { e.preventDefault(); document.getElementById('forgotModal').classList.add('active'); });
+    document.getElementById('enviarRecuperacaoBtn')?.addEventListener('click', recuperarSenha);
+    document.getElementById('cancelarForgotModal')?.addEventListener('click', () => document.getElementById('forgotModal').classList.remove('active'));
+    
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.dropdown-content').forEach(d => d.style.display = 'none');
+    });
+    
+    const editEnderecoPrincipalBtn = document.getElementById('editEnderecoPrincipalBtn');
+    if (editEnderecoPrincipalBtn) {
+        editEnderecoPrincipalBtn.addEventListener('click', () => {
+            if (!usuarioLogado) return;
+            const endP = enderecos[usuarioLogado.id]?.find(e => e.principal) || enderecos[usuarioLogado.id]?.[0];
+            if (endP) {
+                document.getElementById('enderecoRuaInput').value = endP.rua || '';
+                document.getElementById('enderecoCidadeInput').value = endP.cidade || '';
+                document.getElementById('enderecoProvinciaInput').value = endP.provincia || '';
+                document.getElementById('enderecoModalTitle').textContent = '✎ Editar Endereço Principal';
+                document.getElementById('enderecoModal').classList.add('active');
+            } else {
+                document.getElementById('enderecoModalTitle').textContent = '📍 Adicionar Endereço';
+                document.getElementById('enderecoRuaInput').value = '';
+                document.getElementById('enderecoCidadeInput').value = '';
+                document.getElementById('enderecoProvinciaInput').value = '';
+                document.getElementById('enderecoModal').classList.add('active');
+            }
+        });
+    }
+
+    document.querySelectorAll('.menu a[data-page]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            mudarPagina(link.getAttribute('data-page'));
+        });
+    });
+    document.querySelectorAll('.stat-card a[data-page]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            mudarPagina(link.getAttribute('data-page'));
+        });
+    });
+
+    document.querySelectorAll('.auth-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabId = tab.getAttribute('data-tab');
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(`${tabId}Form`).classList.add('active');
+        });
+    });
+
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('page');
+    if (pageParam === 'pedidos' && usuarioLogado) {
+        setTimeout(() => mudarPagina('pedidos'), 100);
+    }
+    
+    const modeParam = urlParams.get('mode');
+    if (modeParam === 'login' && !usuarioLogado) {
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.getAttribute('data-tab') === 'login') tab.classList.add('active');
+        });
+        document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+        document.getElementById('loginForm').classList.add('active');
+    }
+
+    if (usuarioLogado) {
+        document.getElementById('authContainer').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        atualizarDashboard();
+    } else {
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('authContainer').style.display = 'block';
+    }
+</script>
+</body>
+</html>

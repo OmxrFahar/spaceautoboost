@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Meu Carrinho | SPACE Auto Boost</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background: #0b0b0b;
+    color: #fff;
+    line-height: 1.5;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+header {
+    background: #111;
+    padding: 12px 0;
+    border-bottom: 1px solid #2a2a2a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+}
+
+.back-link {
+    background: transparent;
+    border: 1px solid #e01e1e;
+    color: #e01e1e;
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    background: #e01e1e;
+    color: #fff;
+}
+
+.content {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    border-left: 4px solid #e01e1e;
+    padding-left: 20px;
+}
+
+.cart-item {
+    display: flex;
+    gap: 20px;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.cart-item-img {
+    width: 80px;
+    height: 80px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.cart-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.cart-item-info {
+    flex: 2;
+}
+
+.cart-item-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.cart-item-price {
+    color: #e01e1e;
+    font-weight: bold;
+}
+
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-item-quantity button {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cart-item-quantity button:hover {
+    background: #e01e1e;
+}
+
+.cart-item-remove {
+    background: transparent;
+    border: 1px solid #e01e1e;
+    color: #e01e1e;
+    padding: 8px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.cart-item-remove:hover {
+    background: #e01e1e;
+    color: #fff;
+}
+
+.cart-total {
+    text-align: right;
+    padding: 20px;
+    background: #111;
+    border-radius: 12px;
+    border: 1px solid #222;
+    margin-top: 20px;
+}
+
+.cart-total h3 {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.btn-finalizar {
+    background: #e01e1e;
+    color: #fff;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.2s;
+}
+
+.btn-finalizar:hover {
+    background: #c01818;
+    transform: scale(1.02);
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 60px 20px;
+    background: #111;
+    border-radius: 16px;
+    border: 1px solid #222;
+}
+
+.empty-cart p {
+    margin-bottom: 20px;
+    color: #aaa;
+}
+
+.btn-continuar {
+    display: inline-block;
+    background: #e01e1e;
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-continuar:hover {
+    background: #c01818;
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.btn-limpar {
+    background: transparent;
+    border: 1px solid #666;
+    color: #ccc;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.btn-limpar:hover {
+    border-color: #e01e1e;
+    color: #e01e1e;
+}
+
+footer {
+    background: #000;
+    padding: 30px 20px 20px;
+    margin-top: 60px;
+    border-top: 1px solid #222;
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+}
+
+@media (max-width: 700px) {
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    .cart-total {
+        text-align: center;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container top-bar">
+        <div class="logo">
+            <img src="imagens/logo.png" alt="SPACE Auto Boost">
+        </div>
+        <a href="index.html" class="back-link">← Voltar à loja</a>
+    </div>
+</header>
+
+<main class="content">
+    <h1>Meu Carrinho</h1>
+    
+    <div id="carrinhoContainer">
+        <div style="text-align: center; padding: 40px;">Carregando...</div>
+    </div>
+</main>
+
+<footer>
+    <p>© 2026 SPACE Auto Boost - Todos os direitos reservados</p>
+</footer>
+
+<script>
+function formatarPreco(valor) {
+    return valor.toLocaleString('pt') + ' MT';
+}
+
+function carregarCarrinho() {
+    const container = document.getElementById('carrinhoContainer');
+    const carrinho = JSON.parse(localStorage.getItem('space_carrinho')) || [];
+    const usuarioLogado = JSON.parse(localStorage.getItem('space_usuario_logado'));
+    
+    if (carrinho.length === 0) {
+        container.innerHTML = `
+            <div class="empty-cart">
+                <p>🛒 Seu carrinho está vazio</p>
+                <a href="index.html" class="btn-continuar">Continuar comprando</a>
+            </div>
+        `;
+        return;
+    }
+    
+    let total = 0;
+    let itensHtml = '';
+    
+    carrinho.forEach((item, index) => {
+        const quantidade = item.quantidade || 1;
+        const subtotal = item.preco * quantidade;
+        total += subtotal;
+        
+        itensHtml += `
+            <div class="cart-item" data-index="${index}">
+                <div class="cart-item-img">
+                    <img src="${item.imagem}" alt="${item.nome}" onerror="this.src='imagens/logo.png'">
+                </div>
+                <div class="cart-item-info">
+                    <div class="cart-item-title">${item.nome}</div>
+                    <div class="cart-item-price">${formatarPreco(item.preco)}</div>
+                </div>
+                <div class="cart-item-quantity">
+                    <button class="btn-diminuir" data-id="${item.id}">-</button>
+                    <span>${quantidade}</span>
+                    <button class="btn-aumentar" data-id="${item.id}">+</button>
+                </div>
+                <div style="font-weight: bold; min-width: 100px;">${formatarPreco(subtotal)}</div>
+                <button class="cart-item-remove" data-id="${item.id}">Remover</button>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = `
+        <div class="cart-actions">
+            <button class="btn-limpar" id="limparCarrinhoBtn">🗑️ Limpar carrinho</button>
+        </div>
+        ${itensHtml}
+        <div class="cart-total">
+            <h3>Total: ${formatarPreco(total)}</h3>
+            <button class="btn-finalizar" id="finalizarCompraBtn">✅ Finalizar compra</button>
+        </div>
+    `;
+    
+    document.querySelectorAll('.btn-diminuir').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = btn.getAttribute('data-id');
+            alterarQuantidade(id, -1);
+        });
+    });
+    
+    document.querySelectorAll('.btn-aumentar').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = btn.getAttribute('data-id');
+            alterarQuantidade(id, 1);
+        });
+    });
+    
+    document.querySelectorAll('.cart-item-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = btn.getAttribute('data-id');
+            removerItemCarrinho(id);
+        });
+    });
+    
+    document.getElementById('limparCarrinhoBtn')?.addEventListener('click', () => {
+        if (confirm('Tem certeza que deseja limpar todo o carrinho?')) {
+            localStorage.removeItem('space_carrinho');
+            carregarCarrinho();
+        }
+    });
+    
+    document.getElementById('finalizarCompraBtn')?.addEventListener('click', finalizarCompra);
+}
+
+function alterarQuantidade(id, delta) {
+    let carrinho = JSON.parse(localStorage.getItem('space_carrinho')) || [];
+    const item = carrinho.find(i => i.id === id);
+    
+    if (item) {
+        const novaQtd = (item.quantidade || 1) + delta;
+        if (novaQtd <= 0) {
+            carrinho = carrinho.filter(i => i.id !== id);
+        } else {
+            item.quantidade = novaQtd;
+        }
+        localStorage.setItem('space_carrinho', JSON.stringify(carrinho));
+        carregarCarrinho();
+    }
+}
+
+function removerItemCarrinho(id) {
+    let carrinho = JSON.parse(localStorage.getItem('space_carrinho')) || [];
+    carrinho = carrinho.filter(item => item.id !== id);
+    localStorage.setItem('space_carrinho', JSON.stringify(carrinho));
+    carregarCarrinho();
+}
+
+// FUNÇÃO FINALIZAR COMPRA - OBRIGA LOGIN (estilo AliExpress)
+function finalizarCompra() {
+    const usuarioLogado = JSON.parse(localStorage.getItem('space_usuario_logado'));
+    const carrinho = JSON.parse(localStorage.getItem('space_carrinho')) || [];
+    
+    if (carrinho.length === 0) {
+        alert('Seu carrinho está vazio');
+        return;
+    }
+    
+    if (!usuarioLogado) {
+        // Salvar carrinho antes de redirecionar
+        localStorage.setItem('carrinho_antes_login', JSON.stringify(carrinho));
+        alert('🔐 Para finalizar a compra, faça login ou crie uma conta');
+        window.location.href = 'conta.html?redirect=checkout';
+        return;
+    }
+    
+    window.location.href = 'checkout.html';
+}
+
+carregarCarrinho();
+</script>
+</body>
+</html>

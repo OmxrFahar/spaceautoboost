@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Editar Perfil | SPACE Auto Boost</title>
+
+<style>
+body {
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#0a0a0a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+    color:#fff;
+}
+
+.box {
+    width:400px;
+    max-width:100%;
+    background:#141414;
+    padding:28px;
+    border-radius:16px;
+    border:1px solid #222;
+    box-shadow:0 8px 24px rgba(0,0,0,0.3);
+}
+
+h1 {
+    font-size:24px;
+    margin:0 0 6px 0;
+    text-align:center;
+    color:#fff;
+}
+
+.sub {
+    font-size:13px;
+    color:#888;
+    margin-bottom:24px;
+    text-align:center;
+}
+
+.avatar {
+    position:relative;
+    text-align:center;
+    margin:16px 0 24px 0;
+}
+
+.avatar img {
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #d11212;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.avatar img:hover {
+    opacity:0.9;
+    transform:scale(1.02);
+}
+
+.edit-icon {
+    position:absolute;
+    bottom:2px;
+    right:calc(50% - 52px);
+    background:#d11212;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:13px;
+    cursor:pointer;
+    transition:0.2s;
+    border:2px solid #141414;
+}
+
+.edit-icon:hover {
+    background:#ff3333;
+    transform:scale(1.05);
+}
+
+.group {
+    margin-bottom:18px;
+}
+
+label {
+    font-size:12px;
+    color:#aaa;
+    display:block;
+    margin-bottom:6px;
+}
+
+input {
+    width:100%;
+    padding:12px 14px;
+    background:#1a1a1a;
+    border:1px solid #333;
+    border-radius:10px;
+    color:#fff;
+    font-size:14px;
+    outline:none;
+    transition:0.2s;
+    box-sizing:border-box;
+}
+
+input:focus {
+    border-color:#d11212;
+    background:#222;
+}
+
+input::placeholder {
+    color:#555;
+}
+
+input[type="date"] {
+    color-scheme: dark;
+}
+
+.hint {
+    font-size:11px;
+    color:#666;
+    margin-top:6px;
+}
+
+.buttons {
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+}
+
+button {
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14px;
+    transition:0.2s;
+}
+
+.btn-primary {
+    background:#d11212;
+    color:#fff;
+}
+
+.btn-primary:hover {
+    background:#ff1a1a;
+    transform:translateY(-1px);
+}
+
+.btn-secondary {
+    background:transparent;
+    border:1px solid #444;
+    color:#ccc;
+}
+
+.btn-secondary:hover {
+    border-color:#d11212;
+    color:#d11212;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+
+    <h1>Editar Perfil</h1>
+    <div class="sub">Atualize suas informações pessoais</div>
+
+    <!-- AVATAR -->
+    <div class="avatar">
+        <img id="avatar" src="https://via.placeholder.com/100">
+        <div class="edit-icon" id="editIcon">✎</div>
+        <input type="file" id="file" accept="image/*" style="display:none;">
+    </div>
+
+    <!-- NOME -->
+    <div class="group">
+        <label>Nome completo</label>
+        <input type="text" id="nome" placeholder="Digite o seu nome completo">
+    </div>
+
+    <!-- EMAIL -->
+    <div class="group">
+        <label>E-mail</label>
+        <input type="email" id="email" placeholder="Digite o seu e-mail">
+    </div>
+
+    <!-- CONTACTO -->
+    <div class="group">
+        <label>Telefone / WhatsApp</label>
+        <input type="tel" id="numero" placeholder="+258 84 000 0000">
+    </div>
+
+    <!-- DATA NASCIMENTO -->
+    <div class="group">
+        <label>Data de nascimento</label>
+        <input type="date" id="data">
+        <div class="hint">Exemplo: 15/06/1995 (opcional)</div>
+    </div>
+
+    <div class="buttons">
+        <button class="btn-secondary" onclick="fechar()">Cancelar</button>
+        <button class="btn-primary" onclick="salvar()">Salvar alterações</button>
+    </div>
+
+</div>
+
+<script>
+const avatar = document.getElementById("avatar");
+const file = document.getElementById("file");
+const editIcon = document.getElementById("editIcon");
+
+// Abrir seletor de arquivo
+avatar.onclick = () => file.click();
+editIcon.onclick = () => file.click();
+
+// Upload e preview da imagem
+file.onchange = function (e) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        avatar.src = e.target.result;
+        localStorage.setItem("space_avatar", e.target.result);
+    }
+    if (file.files[0]) {
+        reader.readAsDataURL(file.files[0]);
+    }
+};
+
+// Validar e salvar
+function salvar() {
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const numero = document.getElementById("numero").value.trim();
+    const data = document.getElementById("data").value;
+    
+    if (!nome) {
+        alert("⚠️ Por favor, preencha o nome completo.");
+        document.getElementById("nome").focus();
+        return;
+    }
+    
+    if (!email) {
+        alert("⚠️ Por favor, preencha o e-mail.");
+        document.getElementById("email").focus();
+        return;
+    }
+    
+    if (!email.includes("@")) {
+        alert("⚠️ Por favor, insira um e-mail válido.");
+        document.getElementById("email").focus();
+        return;
+    }
+    
+    if (!numero) {
+        alert("⚠️ Por favor, preencha o número de contacto.");
+        document.getElementById("numero").focus();
+        return;
+    }
+    
+    // Salvar dados no localStorage
+    localStorage.setItem("space_nome", nome);
+    localStorage.setItem("space_email", email);
+    localStorage.setItem("space_telefone", numero);
+    if (data) localStorage.setItem("space_data_nascimento", data);
+    
+    // Atualizar no usuário logado
+    const usuarioLogado = JSON.parse(localStorage.getItem('space_usuario_logado'));
+    if (usuarioLogado) {
+        usuarioLogado.nome = nome;
+        usuarioLogado.email = email;
+        usuarioLogado.telefone = numero;
+        localStorage.setItem('space_usuario_logado', JSON.stringify(usuarioLogado));
+        
+        // Atualizar na lista de usuários
+        let usuarios = JSON.parse(localStorage.getItem('space_usuarios')) || [];
+        const index = usuarios.findIndex(u => u.id === usuarioLogado.id);
+        if (index !== -1) {
+            usuarios[index].nome = nome;
+            usuarios[index].email = email;
+            usuarios[index].telefone = numero;
+            localStorage.setItem('space_usuarios', JSON.stringify(usuarios));
+        }
+    }
+    
+    alert("✅ Perfil atualizado com sucesso!");
+    
+    // Redirecionar de volta para o dashboard
+    window.location.href = "conta.html";
+}
+
+function fechar() {
+    window.location.href = "conta.html";
+}
+
+// Carregar dados salvos ao iniciar
+window.onload = function () {
+    // Carregar avatar
+    if (localStorage.getItem("space_avatar")) {
+        avatar.src = localStorage.getItem("space_avatar");
+    }
+    
+    // Carregar dados do usuário logado
+    const usuarioLogado = JSON.parse(localStorage.getItem('space_usuario_logado'));
+    if (usuarioLogado) {
+        document.getElementById("nome").value = usuarioLogado.nome || "";
+        document.getElementById("email").value = usuarioLogado.email || "";
+        document.getElementById("numero").value = usuarioLogado.telefone || "";
+    } else {
+        document.getElementById("nome").value = localStorage.getItem("space_nome") || "";
+        document.getElementById("email").value = localStorage.getItem("space_email") || "";
+        document.getElementById("numero").value = localStorage.getItem("space_telefone") || "";
+    }
+    
+    document.getElementById("data").value = localStorage.getItem("space_data_nascimento") || "";
+};
+</script>
+
+</body>
+</html>

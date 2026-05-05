@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>SPACE Auto Boost | Performance & Estética Automotiva</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin:0;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background:#0b0b0b;
+    color:#fff;
+    line-height: 1.5;
+}
+
+.container {
+    width:90%;
+    max-width: 1400px;
+    margin:auto;
+}
+
+/* HEADER */
+header {
+    background:#111;
+    padding: 12px 0;
+    border-bottom:1px solid #2a2a2a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow: visible;
+}
+
+.top-bar {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.search {
+    flex:1;
+    min-width: 180px;
+    position: relative;
+}
+
+.search input {
+    width:100%;
+    padding:10px 45px 10px 16px;
+    border-radius:40px;
+    border:none;
+    background:#1e1e1e;
+    color:#fff;
+    font-size:14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.search input:focus {
+    background:#2a2a2a;
+    box-shadow: 0 0 0 2px #e01e1e;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+
+.search-icon:hover {
+    opacity: 0.7;
+}
+
+.search-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: #ccc;
+    stroke-width: 2;
+    fill: none;
+}
+
+.icons {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    position: relative;
+}
+
+.icons img:first-child {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.icons img:last-child {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.icons img:hover {
+    opacity: 0.8;
+}
+
+/* BADGE DO CARRINHO */
+.cart-icon-wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #e01e1e;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    font-family: Arial, sans-serif;
+}
+
+/* NAV */
+nav {
+    background:#0f0f0f;
+    border-bottom:1px solid #222;
+    position: sticky;
+    top: 64px;
+    z-index: 99;
+    min-height: 52px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    padding: 14px 0;
+    margin: 0;
+    gap: 32px;
+    font-weight: 500;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+nav ul li {
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+    font-size: 15px;
+    position: relative;
+}
+
+nav ul li:hover {
+    color: #e01e1e;
+}
+
+/* DROPDOWN FLUTUANTE */
+.dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.dropdown-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    width: 14px;
+    height: 14px;
+}
+
+.dropdown-arrow svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+.dropdown-arrow.rotated svg {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    background: #1e1e1e;
+    min-width: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+    border: 1px solid #333;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 18px;
+    color: #eee;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s;
+    border-bottom: 1px solid #2c2c2c;
+}
+
+.dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+    background: #e01e1e;
+    color: white;
+    padding-left: 24px;
+}
+
+/* ========== CARROSSEL HERO ========== */
+.hero-carousel {
+    position: relative;
+    min-height: 500px;
+    width: 90%;
+    max-width: 1300px;
+    margin: 40px auto 50px auto;
+    border-radius: 24px;
+    overflow: hidden;
+    scroll-margin-top: 130px;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+}
+
+.carousel-slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.slide-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.6);
+    z-index: 0;
+}
+
+.slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 40px 30px;
+}
+
+.slide-content h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(120deg, #ffffff, #e0a0a0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    margin-bottom: 16px;
+    max-width: 900px;
+}
+
+.slide-content p {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    opacity: 0.9;
+}
+
+.slide-content .hero-buttons {
+    position: absolute;
+    bottom: 28px;
+    left: 32px;
+    display: flex;
+    gap: 18px;
+    z-index: 5;
+}
+
+.slide-content button {
+    padding: 12px 32px;
+    border: none;
+    background: #e01e1e;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 40px;
+    transition: 0.2s;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(224,30,30,0.3);
+}
+
+.slide-content button:last-child {
+    background: transparent;
+    border: 1.5px solid #e01e1e;
+    color: #fff;
+    box-shadow: none;
+}
+
+.slide-content button:hover {
+    transform: translateY(-2px);
+    background: #c01818;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 10;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn:hover {
+    background: #e01e1e;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.prev { left: 20px; }
+.next { right: 20px; }
+
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background: #e01e1e;
+    transform: scale(1.2);
+}
+
+/* ========== SEÇÕES ========== */
+.news, .foryou {
+    scroll-margin-top: 130px;
+    margin-bottom: 60px;
+}
+
+.news:last-of-type, .foryou:last-of-type {
+    margin-bottom: 40px;
+}
+
+.news h2, .foryou-header h2 {
+    font-size: 28px;
+    margin-bottom: 28px;
+    border-left: 4px solid #e01e1e;
+    padding-left: 16px;
+}
+
+.news-wrapper, .row-wrapper {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+/* GRID RESPONSIVO */
+.grid-ofertas {
+    display: grid;
+    gap: 24px;
+    flex: 1;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-destaques {
+    display: grid;
+    gap: 24px;
+    flex: 1;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-foryou {
+    display: grid;
+    gap: 20px;
+    flex: 1;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* CARD PRODUTO */
+.product-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #e01e1e;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    z-index: 2;
+}
+
+.product-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    padding: 16px;
+    background: #f8f8f8;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 12px 12px 16px;
+}
+
+.product-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: #333;
+    min-height: 36px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.stars {
+    font-size: 11px;
+    color: #ffc107;
+}
+
+.sales-count {
+    font-size: 11px;
+    color: #999;
+}
+
+.prices {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.current-price {
+    color: #e01e1e;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.old-price {
+    color: #999;
+    font-size: 12px;
+    text-decoration: line-through;
+}
+
+.ver-mais-btn {
+    margin-top: 8px;
+}
+
+.ver-mais-btn button {
+    background: transparent;
+    border: 1.5px solid #e01e1e;
+    padding: 10px 24px;
+    border-radius: 40px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.ver-mais-btn button:hover {
+    background: #e01e1e;
+    transform: translateX(4px);
+}
+
+/* FOOTER */
+.new-footer {
+    background-color: #000;
+    color: #ccc;
+    padding: 40px 20px 20px;
+    margin-top: 30px;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+}
+
+.footer-column h3 {
+    color: #fff;
+    margin-bottom: 15px;
+    cursor: default;
+}
+
+.footer-column .description {
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: default;
+    margin-bottom: 20px;
+}
+
+.footer-column .offer-text {
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: default;
+    margin-top: 0;
+}
+
+.footer-column .phone {
+    color: #ccc;
+    font-size: 14px;
+    margin-bottom: 8px;
+    cursor: default;
+}
+
+.footer-column a {
+    color: #ccc;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+
+.footer-column a:hover {
+    color: red;
+}
+
+.clickable {
+    color: #ccc;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+
+.clickable:hover {
+    color: red;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.social-icons a {
+    display: inline-block;
+    transition: transform 0.2s;
+}
+
+.social-icons a:hover {
+    transform: translateY(-3px);
+}
+
+.social-icons img {
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.newsletter-form input {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #1a1a1a;
+    color: #fff;
+    outline: none;
+}
+
+.newsletter-form input:focus {
+    border: 1px solid red;
+}
+
+.newsletter-form button {
+    padding: 10px;
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.newsletter-form button:hover {
+    background-color: #cc0000;
+}
+
+.whatsapp-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #25D366;
+    border: 2px solid #075E54;
+    color: #fff !important;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    width: fit-content;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.whatsapp-button:hover {
+    background-color: #128C7E;
+    transform: scale(1.02);
+}
+
+.whatsapp-button img {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+    margin-top: 20px;
+    padding-top: 15px;
+}
+
+.footer-bottom a {
+    color: #777;
+    margin: 0 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.footer-bottom a:hover {
+    color: red;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 1200px) {
+    .grid-foryou {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .grid-ofertas, .grid-destaques {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+    
+    .grid-foryou {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-carousel {
+        min-height: 400px;
+        margin: 20px auto 30px auto;
+    }
+    .carousel-container, .carousel-slides {
+        min-height: 400px;
+    }
+    .slide-content h1 { font-size: 1.8rem; }
+    .slide-content p { font-size: 1rem; }
+    .carousel-btn { width: 35px; height: 35px; font-size: 18px; }
+    
+    .grid-ofertas, .grid-destaques {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    
+    .grid-foryou {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    
+    .product-title {
+        font-size: 12px;
+        min-height: 35px;
+    }
+    
+    .current-price {
+        font-size: 14px;
+    }
+    
+    .news, .foryou {
+        margin-bottom: 40px;
+    }
+    
+    .news h2, .foryou-header h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+    
+    .news-wrapper, .row-wrapper {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .ver-mais-btn {
+        align-self: flex-end;
+    }
+    
+    .top-bar {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .logo img {
+        height: 35px;
+    }
+    
+    nav {
+        top: 57px;
+        min-height: 48px;
+    }
+    
+    nav ul {
+        padding: 12px 0;
+        gap: 20px;
+        justify-content: center;
+    }
+    
+    nav ul li {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-carousel {
+        min-height: 350px;
+        margin: 15px auto 25px auto;
+    }
+    .slide-content h1 { font-size: 1.4rem; }
+    .slide-content button { padding: 8px 20px; font-size: 0.85rem; }
+    
+    .grid-ofertas, .grid-destaques, .grid-foryou {
+        gap: 12px;
+    }
+    
+    .product-info {
+        padding: 8px;
+    }
+    
+    .product-title {
+        font-size: 10px;
+        min-height: 30px;
+    }
+    
+    .current-price {
+        font-size: 12px;
+    }
+    
+    .news, .foryou {
+        margin-bottom: 30px;
+    }
+    
+    .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .logo {
+        justify-content: center;
+    }
+    
+    .logo img {
+        height: 32px;
+    }
+    
+    .icons {
+        justify-content: flex-end;
+    }
+    
+    nav ul {
+        gap: 14px;
+        justify-content: center;
+    }
+    
+    nav ul li {
+        font-size: 12px;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container top-bar">
+        <div class="logo">
+            <img src="imagens/logo.png" alt="Space Auto Boost">
+        </div>
+        <div class="search">
+            <input type="text" id="searchInput" placeholder="Buscar produtos, pneus, jantes...">
+            <div class="search-icon" id="searchButton">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                    <circle cx="10.5" cy="10.5" r="7.5"/>
+                    <line x1="16" y1="16" x2="22" y2="22"/>
+                </svg>
+            </div>
+        </div>
+        <div class="icons">
+            <img src="imagens/usuario.png" alt="Minha Conta">
+            <div class="cart-icon-wrapper">
+                <img src="imagens/carrinho.png" alt="Carrinho" style="width: 48px; height: 48px; cursor: pointer;">
+                <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav>
+    <ul class="container" id="navMenu">
+        <li data-target="hero">Início</li>
+        <li id="categoriesLi" style="position: relative;">
+            <div class="dropdown-trigger" id="dropdownTrigger">
+                <span>Categorias</span>
+                <span class="dropdown-arrow" id="dropdownArrow">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="dropdown-menu" id="categoriesDropdown">
+                <a href="#" data-cat="Pneus & Jantes">Pneus & Jantes</a>
+                <a href="#" data-cat="Motor & Performance">Motor & Performance</a>
+                <a href="#" data-cat="Freio & Transmissão">Freio & Transmissão</a>
+                <a href="#" data-cat="Estética & Body Kit">Estética & Body Kit</a>
+                <a href="#" data-cat="Suspensão & Acessórios">Suspensão & Acessórios</a>
+            </div>
+        </li>
+        <li data-target="ofertas-section">Ofertas exclusivas</li>
+        <li data-target="destaques-section">Destaques</li>
+        <li data-target="foryou-section">Para você</li>
+        <li data-target="footer-sobre">Sobre Nós</li>
+    </ul>
+</nav>
+
+<!-- CARROSSEL HERO -->
+<section id="hero" class="hero-carousel">
+    <div class="carousel-container">
+        <div class="carousel-slides">
+            <div class="carousel-slide active">
+                <div class="slide-bg" style="background-image: url('imagens/hero-performance.jpg');"></div>
+                <div class="slide-content">
+                    <h1>Performance Automotiva</h1>
+                    <p>Componentes e soluções que elevam o desempenho do seu veículo</p>
+                    <div class="hero-buttons">
+                        <button>Adicionar ao carrinho</button>
+                        <button>Ver Mais</button>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <div class="slide-bg" style="background-image: url('imagens/hero-estetica.jpg');"></div>
+                <div class="slide-content">
+                    <h1>Estética Automotiva</h1>
+                    <p>Estética que transformam o visual do seu veículo</p>
+                    <div class="hero-buttons">
+                        <button>Adicionar ao carrinho</button>
+                        <button>Ver Mais</button>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <div class="slide-bg" style="background-image: url('imagens/hero-qualidade.jpg');"></div>
+                <div class="slide-content">
+                    <h1>Qualidade Premium</h1>
+                    <p>Produtos selecionados para sua performance</p>
+                    <div class="hero-buttons">
+                        <button>Adicionar ao carrinho</button>
+                        <button>Ver Mais</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-btn prev" id="prevSlide">❮</button>
+        <button class="carousel-btn next" id="nextSlide">❯</button>
+        <div class="carousel-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+        </div>
+    </div>
+</section>
+
+<!-- OFERTAS EXCLUSIVAS -->
+<section id="ofertas-section" class="news container">
+    <h2>Ofertas exclusivas</h2>
+    <div class="news-wrapper">
+        <div class="grid-ofertas" id="gridOfertas"></div>
+        <div class="ver-mais-btn"><button>Ver Mais →</button></div>
+    </div>
+</section>
+
+<!-- DESTAQUES -->
+<section id="destaques-section" class="news container">
+    <h2>Destaques</h2>
+    <div class="news-wrapper">
+        <div class="grid-destaques" id="gridDestaques"></div>
+        <div class="ver-mais-btn"><button>Ver Mais →</button></div>
+    </div>
+</section>
+
+<!-- PARA VOCÊ -->
+<section id="foryou-section" class="foryou container">
+    <div class="foryou-header"><h2>Para você</h2></div>
+    <div class="foryou-row">
+        <div class="row-wrapper">
+            <div class="grid-foryou" id="gridForyou"></div>
+            <div class="ver-mais-btn"><button>Ver Mais →</button></div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="new-footer" id="footer-sobre">
+    <div class="footer-container">
+        <div class="footer-column">
+            <div class="footer-logo">
+                <img src="imagens/logo.png" alt="Space Auto Boost" style="height: 40px; width: auto; margin-bottom: 15px;">
+            </div>
+            <p class="description">Performance & Estética Automotiva</p>
+            <p class="offer-text">Oferecemos acessórios e soluções para melhorar o desempenho do seu veículo.</p>
+            <h3>Newsletter</h3>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Insira o seu e-mail" id="newsletterEmail">
+                <button id="newsletterBtn">Inscrever-se</button>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>Informações</h3>
+            <a href="sobre.html">Sobre Nós</a>
+            <a href="privacidade.html">Política de Privacidade</a>
+            <a href="termos.html">Termos de Uso</a>
+            <a href="trocas.html">Política de Trocas</a>
+            <a href="envio.html">Política de Envio</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="footer-column">
+            <h3>Contacte-nos</h3>
+            <p class="phone">📞 +258 84 288 0591</p>
+            <span class="clickable" id="email">✉️ contato@spaceautoboost.com</span>
+            <a href="https://wa.me/258842880591" class="whatsapp-button" target="_blank">
+                <img src="imagens/whatsapp.png" alt="WhatsApp">
+                WhatsApp
+            </a>
+        </div>
+        <div class="footer-column">
+            <h3>Siga-nos</h3>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/spaceautoboost" target="_blank"><img src="imagens/instagram.png" alt="Instagram"></a>
+                <a href="https://www.facebook.com/spaceautoboost" target="_blank"><img src="imagens/facebook.png" alt="Facebook"></a>
+                <a href="https://www.tiktok.com/@space.auto.boost" target="_blank"><img src="imagens/tiktok.png" alt="TikTok"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Space Auto Boost - Todos os direitos reservados</p>     
+    </div>
+</footer>
+
+<script>
+// DADOS DOS PRODUTOS
+const ofertasData = [
+    { id: "o1", nome: "Escape Esportivo Inox", preco: 18900, oldPrice: 24900, avaliacao: 4.8, vendidos: 215, imagem: "imagens/oferta-escape.png", desconto: 24, tipo: "importado" },
+    { id: "o2", nome: "Jantes XXR Liga Leve", preco: 27900, oldPrice: 35900, avaliacao: 4.7, vendidos: 189, imagem: "imagens/oferta-jantes.png", desconto: 22, tipo: "importado" },
+    { id: "o3", nome: "Intercooler HKS", preco: 34500, oldPrice: 44900, avaliacao: 4.9, vendidos: 76, imagem: "imagens/oferta-intercooler.png", desconto: 23, tipo: "importado" },
+    { id: "o4", nome: "Omxr Fahar Escape", preco: 18900, oldPrice: 24900, avaliacao: 4.8, vendidos: 215, imagem: "imagens/oferta-omxr.png", desconto: 24, tipo: "importado" }
+];
+
+const destaquesData = [
+    { id: "d1", nome: "Filtro de óleo GUD Premium", preco: 5900, oldPrice: 8900, avaliacao: 4.9, vendidos: 512, imagem: "imagens/destaque-filtro-oleo.png", desconto: 34, tipo: "nacional" },
+    { id: "d2", nome: "Parachoque Quantum", preco: 18900, oldPrice: 25900, avaliacao: 4.6, vendidos: 98, imagem: "imagens/destaque-parachoque.png", desconto: 27, tipo: "importado" },
+    { id: "d3", nome: "Facelift Lexus", preco: 22900, oldPrice: 29900, avaliacao: 4.8, vendidos: 67, imagem: "imagens/destaque-facelift.png", desconto: 23, tipo: "importado" },
+    { id: "d4", nome: "Filtro Esportivo", preco: 8900, oldPrice: 12900, avaliacao: 4.7, vendidos: 234, imagem: "imagens/destaque-filtro-esportivo.png", desconto: 31, tipo: "nacional" }
+];
+
+const foryouData = [
+    { id: "f1", nome: "Pneu Royalblack 195/65R15 91V", preco: 15500, oldPrice: 19900, avaliacao: 4.8, vendidos: 156, imagem: "imagens/foryou-suspensao.png", desconto: 22, tipo: "nacional" },
+    { id: "f2", nome: "Oleo 10W40 Magnatec 5L", preco: 12900, oldPrice: 16900, avaliacao: 4.7, vendidos: 203, imagem: "imagens/foryou-disco-freio.png", desconto: 24, tipo: "nacional" },
+    { id: "f3", nome: "Shampoo Wash Wax Splash 5L", preco: 34500, oldPrice: 44900, avaliacao: 4.9, vendidos: 89, imagem: "imagens/foryou-chip-tuning.png", desconto: 23, tipo: "nacional" },
+    { id: "f4", nome: "Lampadas H4 P43T 12V 100/90W SPARTANS", preco: 9900, oldPrice: 13900, avaliacao: 4.6, vendidos: 312, imagem: "imagens/foryou-bateria.png", desconto: 29, tipo: "importado" },
+    { id: "f5", nome: "Filtro de oleo para ford ranger", preco: 4500, oldPrice: 6900, avaliacao: 4.9, vendidos: 678, imagem: "imagens/foryou-oleo.png", desconto: 35, tipo: "nacional" },
+    { id: "f6", nome: "Filtro de ar Gud para toyota", preco: 49900, oldPrice: 69900, avaliacao: 4.8, vendidos: 45, imagem: "imagens/foryou-envelopamento.png", desconto: 29, tipo: "importado" },
+    { id: "f7", nome: "Bateria BigBoss 45ah", preco: 27900, oldPrice: 35900, avaliacao: 4.8, vendidos: 123, imagem: "imagens/foryou-multimidias.png", desconto: 22, tipo: "nacional" },
+    { id: "f8", nome: "Oleo 10W40 Magnatec 5L", preco: 3900, oldPrice: 5900, avaliacao: 4.7, vendidos: 445, imagem: "imagens/foryou-neons.png", desconto: 34, tipo: "nacional" }
+];
+
+// FUNÇÕES
+function formatarPreco(valor) {
+    return valor.toLocaleString('pt') + ' MT';
+}
+
+function gerarEstrelas(nota) {
+    let estrelas = '';
+    for (let i = 0; i < Math.floor(nota); i++) estrelas += '★';
+    if (nota % 1 >= 0.5) estrelas += '½';
+    for (let i = 0; i < 5 - Math.ceil(nota); i++) estrelas += '☆';
+    return estrelas;
+}
+
+// ========== FUNÇÕES DO CARRINHO ==========
+function atualizarCarrinhoBadge() {
+    const carrinho = JSON.parse(localStorage.getItem('space_carrinho')) || [];
+    const totalItens = carrinho.reduce((total, item) => total + (item.quantidade || 1), 0);
+    
+    const badge = document.getElementById('cartBadge');
+    if (!badge) return;
+    
+    if (totalItens > 0) {
+        badge.textContent = totalItens;
+        badge.style.display = 'flex';
+    } else {
+        badge.style.display = 'none';
+    }
+}
+
+// RENDERIZAR GRIDS
+function renderizarGrid(containerId, produtos) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    container.innerHTML = produtos.map(prod => `
+        <div class="product-card" data-id="${prod.id}">
+            <div class="discount-badge">-${prod.desconto}%</div>
+            <img class="product-image" src="${prod.imagem}" alt="${prod.nome}" onerror="this.src='imagens/logo.png'">
+            <div class="product-info">
+                <div class="product-title">${prod.nome}</div>
+                <div class="rating">
+                    <span class="stars">${gerarEstrelas(prod.avaliacao)}</span>
+                    <span class="sales-count">${prod.vendidos} vendidos</span>
+                </div>
+                <div class="prices">
+                    <span class="current-price">${formatarPreco(prod.preco)}</span>
+                    <span class="old-price">${formatarPreco(prod.oldPrice)}</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    container.querySelectorAll('.product-card').forEach(card => {
+        const id = card.dataset.id;
+        const produto = produtos.find(p => p.id === id);
+        
+        card.addEventListener('click', () => {
+            window.location.href = `produto.html?id=${produto.id}`;
+        });
+    });
+}
+
+function redirectTo(page) { 
+    alert(`🔗 Navegando para: ${page}\n\n(Em breve disponível!)`); 
+}
+
+function performSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchTerm = searchInput.value.trim();
+    if (searchTerm) redirectTo(`busca?q=${encodeURIComponent(searchTerm)}`);
+    else alert('Digite algo para buscar!');
+}
+
+function smoothScrollToElement(element) {
+    if (!element) return;
+    
+    const headerOffset = 130;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    const startPosition = window.pageYOffset;
+    const distance = offsetPosition - startPosition;
+    const duration = 800;
+    let startTime = null;
+    
+    function animation(currentTime) {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        
+        const easeInOutCubic = progress < 0.5 
+            ? 4 * progress * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        
+        const newPosition = startPosition + (distance * easeInOutCubic);
+        window.scrollTo(0, newPosition);
+        
+        if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+        }
+    }
+    
+    requestAnimationFrame(animation);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Renderizar grids
+    renderizarGrid('gridOfertas', ofertasData);
+    renderizarGrid('gridDestaques', destaquesData);
+    renderizarGrid('gridForyou', foryouData);
+    
+    // Atualizar badge do carrinho
+    atualizarCarrinhoBadge();
+    
+    // Busca
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    if (searchInput) searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
+    if (searchButton) searchButton.addEventListener('click', performSearch);
+    
+    // Scroll suave menu
+    const sectionsMap = {
+        'hero': document.getElementById('hero'),
+        'ofertas-section': document.getElementById('ofertas-section'),
+        'destaques-section': document.getElementById('destaques-section'),
+        'foryou-section': document.getElementById('foryou-section'),
+        'footer-sobre': document.getElementById('footer-sobre')
+    };
+    
+    document.querySelectorAll('#navMenu li[data-target]').forEach(item => {
+        item.addEventListener('click', (e) => {
+            const targetId = item.getAttribute('data-target');
+            if (targetId && sectionsMap[targetId]) {
+                e.preventDefault();
+                smoothScrollToElement(sectionsMap[targetId]);
+            }
+        });
+    });
+    
+    // Dropdown categorias
+    const dropdownMenu = document.getElementById('categoriesDropdown');
+    const arrow = document.getElementById('dropdownArrow');
+    const trigger = document.getElementById('dropdownTrigger');
+    let dropdownOpen = false;
+    
+    function closeDropdown() {
+        dropdownMenu.classList.remove('show');
+        arrow.classList.remove('rotated');
+        dropdownOpen = false;
+    }
+    
+    function toggleDropdown(e) {
+        e.stopPropagation();
+        if (dropdownOpen) closeDropdown();
+        else {
+            dropdownMenu.classList.add('show');
+            arrow.classList.add('rotated');
+            dropdownOpen = true;
+        }
+    }
+    
+    if (trigger && dropdownMenu) {
+        trigger.addEventListener('click', toggleDropdown);
+        document.addEventListener('click', function(e) {
+            const li = document.getElementById('categoriesLi');
+            if (li && !li.contains(e.target)) closeDropdown();
+        });
+        document.querySelectorAll('#categoriesDropdown a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const catName = link.getAttribute('data-cat');
+                closeDropdown();
+                redirectTo(`categoria/${catName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+            });
+        });
+    }
+    
+    // Botões "Ver Mais"
+    document.querySelectorAll('.ver-mais-btn button').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); redirectTo('ver-mais/produtos'); });
+    });
+    
+    // Botões hero
+    document.querySelectorAll('.hero-buttons button').forEach(btn => {
+        btn.addEventListener('click', () => redirectTo(btn.textContent.trim() === 'Adicionar ao carrinho' ? 'carrinho' : 'destaques'));
+    });
+    
+    // ⭐⭐⭐ ÍCONES ATUALIZADOS ⭐⭐⭐
+    // Ícone do usuário - redireciona para login se não logado
+    document.querySelector('.icons img:first-child')?.addEventListener('click', () => {
+        const usuarioLogado = JSON.parse(localStorage.getItem('space_usuario_logado'));
+        if (usuarioLogado) {
+            window.location.href = 'conta.html';
+        } else {
+            window.location.href = 'conta.html?mode=login';
+        }
+    });
+    
+    // Ícone do carrinho
+    const cartIcon = document.querySelector('.cart-icon-wrapper img');
+    if (cartIcon) {
+        cartIcon.addEventListener('click', () => {
+            window.location.href = 'carrinho.html';
+        });
+    }
+    
+    // Footer - Newsletter
+    document.getElementById('newsletterBtn')?.addEventListener('click', () => {
+        const email = document.getElementById('newsletterEmail')?.value;
+        redirectTo(email ? `newsletter?email=${encodeURIComponent(email)}` : 'newsletter');
+    });
+    
+    // Carrossel
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.dot');
+    const total = slides.length;
+    function showSlide(index) {
+        slides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+        currentSlide = (index + total) % total;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+    document.getElementById('nextSlide')?.addEventListener('click', () => showSlide(currentSlide+1));
+    document.getElementById('prevSlide')?.addEventListener('click', () => showSlide(currentSlide-1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+    let auto = setInterval(() => showSlide(currentSlide+1), 5000);
+    const carouselSec = document.querySelector('.hero-carousel');
+    carouselSec?.addEventListener('mouseenter', () => clearInterval(auto));
+    carouselSec?.addEventListener('mouseleave', () => { auto = setInterval(() => showSlide(currentSlide+1), 5000); });
+});
+</script>
+</body>
+</html>

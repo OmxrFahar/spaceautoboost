@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>SPACE Auto Boost | Detalhes do Produto</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.5;
+    }
+
+    /* Header */
+    .header {
+        background: #111;
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .container {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .logo img {
+        height: 40px;
+        width: auto;
+    }
+
+    .back-button {
+        background: transparent;
+        border: 1px solid #e01e1e;
+        color: #e01e1e;
+        padding: 8px 20px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .back-button:hover {
+        background: #e01e1e;
+        color: #fff;
+    }
+
+    /* Produto */
+    .product-page {
+        background: #fff;
+        margin: 30px auto;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        padding: 30px;
+    }
+
+    /* Galeria */
+    .gallery {
+        position: sticky;
+        top: 100px;
+    }
+
+    .main-image {
+        background: #f8f8f8;
+        border-radius: 16px;
+        overflow: hidden;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 20px;
+    }
+
+    .thumb-list {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+    }
+
+    .thumb {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid transparent;
+        background: #f8f8f8;
+    }
+
+    .thumb.active {
+        border-color: #e01e1e;
+    }
+
+    .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Info Produto */
+    .brand {
+        color: #e01e1e;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .title {
+        font-size: 26px;
+        font-weight: 700;
+        color: #111;
+        margin-bottom: 12px;
+    }
+
+    /* BADGES APENAS INFORMATIVAS */
+    .info-badges {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+    .info-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 500;
+        background: #f0f0f0;
+        color: #555;
+    }
+
+    .info-badge.entrega-rapida {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .info-badge.sob-encomenda {
+        background: #fff8e1;
+        color: #f57c00;
+    }
+
+    /* Rating */
+    .rating-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .stars {
+        color: #ffc107;
+        font-size: 18px;
+    }
+
+    /* Preço */
+    .price-section {
+        background: #f8f8f8;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+
+    .current-price {
+        font-size: 34px;
+        font-weight: 800;
+        color: #e01e1e;
+    }
+
+    .old-price {
+        font-size: 18px;
+        color: #999;
+        text-decoration: line-through;
+        margin-left: 12px;
+    }
+
+    .discount {
+        background: #e01e1e;
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        margin-left: 12px;
+    }
+
+    /* Entrega */
+    .delivery-info {
+        background: #f8f9fc;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+    }
+
+    .delivery-title {
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+
+    .delivery-detail {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #555;
+    }
+
+    .delivery-note {
+        margin-top: 10px;
+        padding-top: 8px;
+        border-top: 1px dashed #ddd;
+        font-size: 12px;
+        color: #888;
+    }
+
+    /* Botões */
+    .action-buttons {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .btn-buy {
+        flex: 1;
+        background: #e01e1e;
+        border: none;
+        color: #fff;
+        padding: 15px;
+        border-radius: 40px;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn-buy:hover {
+        background: #c01818;
+    }
+
+    .btn-cart {
+        flex: 1;
+        background: transparent;
+        border: 2px solid #e01e1e;
+        color: #e01e1e;
+        padding: 15px;
+        border-radius: 40px;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn-cart:hover {
+        background: #fff5f5;
+    }
+
+    /* Confiança */
+    .trust-items {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        padding: 15px 0;
+        border-top: 1px solid #eee;
+    }
+
+    .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #666;
+    }
+
+    /* Tabs */
+    .tabs-section {
+        padding: 0 30px 30px 30px;
+    }
+
+    .tabs-header {
+        display: flex;
+        gap: 30px;
+        border-bottom: 2px solid #eee;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .tab-btn {
+        background: none;
+        border: none;
+        padding: 12px 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #666;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .tab-btn.active {
+        color: #e01e1e;
+    }
+
+    .tab-btn.active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #e01e1e;
+    }
+
+    .tab-content {
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .specs-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .specs-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .specs-table td:first-child {
+        font-weight: 600;
+        width: 180px;
+        background: #fafafa;
+    }
+
+    .review-card {
+        background: #fafafa;
+        padding: 16px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+    }
+
+    /* FAQ */
+    .faq-item {
+        border-bottom: 1px solid #eee;
+        margin-bottom: 12px;
+    }
+
+    .faq-question {
+        font-weight: 600;
+        padding: 14px 0;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .faq-question:hover {
+        color: #e01e1e;
+    }
+
+    .faq-answer {
+        padding: 0 0 14px 20px;
+        color: #666;
+        font-size: 14px;
+        line-height: 1.6;
+        display: none;
+    }
+
+    .faq-answer.show {
+        display: block;
+    }
+
+    .faq-icon {
+        transition: transform 0.2s;
+    }
+
+    .faq-icon.rotated {
+        transform: rotate(180deg);
+    }
+
+    /* Relacionados */
+    .related-section {
+        margin: 30px 0;
+    }
+
+    .related-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        border-left: 4px solid #e01e1e;
+        padding-left: 16px;
+    }
+
+    .related-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .related-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: 0.3s;
+        border: 1px solid #eee;
+    }
+
+    .related-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .related-card img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        object-fit: contain;
+        padding: 16px;
+        background: #f8f8f8;
+    }
+
+    .related-card .info {
+        padding: 12px;
+    }
+
+    .related-card .title {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .related-card .price {
+        color: #e01e1e;
+        font-weight: 700;
+    }
+
+    /* Footer */
+    .footer {
+        background: #000;
+        color: #ccc;
+        padding: 40px 20px 20px;
+        margin-top: 40px;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .footer-column {
+        flex: 1;
+        min-width: 200px;
+        margin: 10px;
+    }
+
+    .footer-column h3 {
+        color: #fff;
+        margin-bottom: 15px;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        font-size: 13px;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #222;
+    }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+        .product-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        .related-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .product-grid {
+            padding: 20px;
+        }
+        .title {
+            font-size: 20px;
+        }
+        .current-price {
+            font-size: 26px;
+        }
+        .action-buttons {
+            flex-direction: column;
+        }
+        .related-grid {
+            grid-template-columns: 1fr;
+        }
+        .tabs-header {
+            gap: 16px;
+        }
+        .tab-btn {
+            font-size: 14px;
+        }
+        .thumb-list {
+            justify-content: center;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-content">
+        <div class="logo">
+            <img src="imagens/logo.png" alt="Space Auto Boost" onerror="this.src='https://placehold.co/120x40?text=SPACE'">
+        </div>
+        <button class="back-button" onclick="history.back()">← Voltar</button>
+    </div>
+</header>
+
+<div class="container">
+    <div class="product-page" id="productPage">
+        <div style="text-align: center; padding: 50px;">Carregando...</div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>SPACE Auto Boost</h3>
+            <p>Performance & Estética Automotiva</p>
+        </div>
+        <div class="footer-column">
+            <h3>Contato</h3>
+            <p>📞 +258 84 288 0591</p>
+            <p>✉️ contato@spaceautoboost.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Space Auto Boost - Todos os direitos reservados</p>
+    </div>
+</footer>
+
+<script>
+    // ========== BANCO DE DADOS DE PRODUTOS COM FAQ ==========
+    const produtosDB = {
+        // Ofertas
+        o1: { 
+            id: "o1", nome: "Escape Esportivo Inox", preco: 18900, oldPrice: 24900, 
+            avaliacao: 4.8, vendidos: 215, imagem: "imagens/oferta-escape.png", 
+            imagens: ["imagens/oferta-escape.png", "imagens/oferta-escape-2.png", "imagens/oferta-escape-3.png"], 
+            desconto: 24, tipo: "importado", 
+            descricao: "Sistema de escape esportivo em aço inoxidável 304, aumenta potência e som esportivo. Instalação plug-and-play.", 
+            garantia: "12 meses", material: "Aço Inoxidável 304",
+            especificacoes: { Material: "Aço Inoxidável 304", "Diâmetro": "63.5mm (2.5\")", Acabamento: "Escovado/Polido", Garantia: "12 meses" },
+            faq: [
+                { pergunta: "🔧 É compatível com meu carro?", resposta: "O escape é universal com adaptadores. Consulte-nos com a marca e modelo do seu veículo para confirmar a compatibilidade." },
+                { pergunta: "⏱️ Qual o prazo de entrega?", resposta: "Por ser um produto importado sob encomenda, o prazo é de 20 a 40 dias úteis após a confirmação do pagamento." },
+                { pergunta: "🔊 O som é muito alto?", resposta: "O escape tem som esportivo profundo, mas não é excessivamente alto. Ideal para uso diário com nota esportiva." },
+                { pergunta: "📦 Vem com kit de instalação?", resposta: "Sim! Inclui parafusos, abraçadeiras e junta de vedação." }
+            ]
+        },
+        o2: { 
+            id: "o2", nome: "Jantes XXR Liga Leve", preco: 27900, oldPrice: 35900, 
+            avaliacao: 4.7, vendidos: 189, imagem: "imagens/oferta-jantes.png", 
+            imagens: ["imagens/oferta-jantes.png", "imagens/oferta-jantes-2.png"], 
+            desconto: 22, tipo: "importado", 
+            descricao: "Jantes de liga leve modelo XXR, design esportivo e alta durabilidade.", 
+            garantia: "12 meses", material: "Liga de Alumínio",
+            especificacoes: { Material: "Liga de Alumínio", Tamanho: "17\"", "Carga máxima": "690kg", Garantia: "12 meses" },
+            faq: [
+                { pergunta: "🔧 São originais?", resposta: "Sim, são jantes originais da marca XXR com certificação de qualidade." },
+                { pergunta: "⏱️ Qual o prazo de entrega?", resposta: "Produto importado sob encomenda: 20 a 40 dias úteis." },
+                { pergunta: "🚗 Servem no meu carro?", resposta: "Consulte-nos com a marca, modelo e ano do seu veículo para confirmar o encaixe." },
+                { pergunta: "🛠️ Vem com pneus?", resposta: "Apenas as jantes. Pneus são vendidos separadamente." }
+            ]
+        },
+        o3: { 
+            id: "o3", nome: "Intercooler HKS", preco: 34500, oldPrice: 44900, 
+            avaliacao: 4.9, vendidos: 76, imagem: "imagens/oferta-intercooler.png", 
+            imagens: ["imagens/oferta-intercooler.png"], 
+            desconto: 23, tipo: "importado", 
+            descricao: "Intercooler de alta performance HKS, ideal para carros turbo.", 
+            garantia: "12 meses", material: "Alumínio",
+            especificacoes: { Material: "Alumínio", "Tamanho do núcleo": "600x300x76mm", "Pressão máxima": "3.0 Bar", Garantia: "12 meses" },
+            faq: [
+                { pergunta: "🔧 É compatível com meu carro turbo?", resposta: "Sim, é universal. Recomendamos consultar para confirmar as medidas." },
+                { pergunta: "⏱️ Prazo de entrega?", resposta: "20 a 40 dias úteis por ser importado sob encomenda." },
+                { pergunta: "📈 Aumenta quantos cavalos?", resposta: "Pode aumentar de 10 a 20cv dependendo do setup do veículo." },
+                { pergunta: "🛠️ Instalação difícil?", resposta: "Recomenda-se instalação profissional em oficina especializada." }
+            ]
+        },
+        o4: { 
+            id: "o4", nome: "Filtro de óleo GUD", preco: 5900, oldPrice: 8900, 
+            avaliacao: 4.9, vendidos: 512, imagem: "imagens/destaque-filtro-oleo.png", 
+            imagens: ["imagens/destaque-filtro-oleo.png"], 
+            desconto: 34, tipo: "nacional", 
+            descricao: "Filtro de óleo de alta qualidade, compatível com diversas marcas.", 
+            garantia: "6 meses", material: "Papel de Alta Filtragem",
+            especificacoes: { Material: "Papel de Alta Filtragem", "Eficiência": "99.5%", "Pressão máxima": "12 Bar", Garantia: "6 meses" },
+            faq: [
+                { pergunta: "🔧 Serve em qual carro?", resposta: "Universal para maioria dos veículos nacionais. Consulte-nos para confirmar." },
+                { pergunta: "⏱️ Prazo de entrega?", resposta: "Entrega rápida: 2 a 5 dias úteis (produto em Moçambique)." },
+                { pergunta: "🔄 Quando devo trocar?", resposta: "Recomenda-se trocar a cada 5.000km ou conforme especificação do fabricante." },
+                { pergunta: "✅ É original?", resposta: "Sim, produto original GUD com garantia de 6 meses." }
+            ]
+        },
+        
+        // Destaques
+        d1: { 
+            id: "d1", nome: "Filtro de óleo GUD Premium", preco: 5900, oldPrice: 8900, 
+            avaliacao: 4.9, vendidos: 512, imagem: "imagens/destaque-filtro-oleo.png", 
+            imagens: ["imagens/destaque-filtro-oleo.png"], 
+            desconto: 34, tipo: "nacional", 
+            descricao: "Filtro de óleo de alta qualidade.", 
+            garantia: "6 meses", material: "Papel de Alta Filtragem",
+            especificacoes: { Material: "Papel de Alta Filtragem", "Eficiência": "99.5%", Garantia: "6 meses" },
+            faq: [
+                { pergunta: "🔧 Qual a durabilidade?", resposta: "Projetado para durar até 10.000km ou conforme recomendação do fabricante." },
+                { pergunta: "⏱️ Entrega rápida?", resposta: "Sim! Produto em Moçambique, entrega 2-5 dias úteis." },
+                { pergunta: "✅ É original GUD?", resposta: "Sim, produto original com certificado de autenticidade." }
+            ]
+        },
+        d2: { 
+            id: "d2", nome: "Parachoque Quantum", preco: 18900, oldPrice: 25900, 
+            avaliacao: 4.6, vendidos: 98, imagem: "imagens/destaque-parachoque.png", 
+            imagens: ["imagens/destaque-parachoque.png"], 
+            desconto: 27, tipo: "importado", 
+            descricao: "Parachoque esportivo modelo Quantum, design agressivo.", 
+            garantia: "12 meses", material: "Fibra de Vidro",
+            especificacoes: { Material: "Fibra de Vidro", Acabamento: "Primer", Garantia: "12 meses" },
+            faq: [
+                { pergunta: "🔧 Precisa pintar?", resposta: "Sim, vem em primer pronto para pintura na cor desejada." },
+                { pergunta: "⏱️ Prazo de entrega?", resposta: "Importado sob encomenda: 20 a 40 dias úteis." },
+                { pergunta: "🚗 Compatível com qual carro?", resposta: "Consulte-nos com a marca e modelo para verificar compatibilidade." }
+            ]
+        },
+        d3: { 
+            id: "d3", nome: "Facelift Lexus", preco: 22900, oldPrice: 29900, 
+            avaliacao: 4.8, vendidos: 67, imagem: "imagens/destaque-facelift.png", 
+            imagens: ["imagens/destaque-facelift.png"], 
+            desconto: 23, tipo: "importado", 
+            descricao: "Kit facelift estilo Lexus, transforma o visual do seu carro.", 
+            garantia: "12 meses", material: "ABS",
+            especificacoes: { Material: "ABS", "Compatível com": "Toyota Corolla 2014-2018", Garantia: "12 meses" },
+            faq: [
+                { pergunta: "🔧 Instalação difícil?", resposta: "Recomenda-se instalação profissional em oficina especializada." },
+                { pergunta: "⏱️ Prazo de entrega?", resposta: "20 a 40 dias úteis por ser importado." },
+                { pergunta: "🎨 Vem pintado?", resposta: "Não, vem em primer pronto para pintura." }
+            ]
+        },
+        d4: { 
+            id: "d4", nome: "Óleo 10W40 Magnatec", preco: 12900, oldPrice: 16900, 
+            avaliacao: 4.7, vendidos: 203, imagem: "imagens/foryou-disco-freio.png", 
+            imagens: ["imagens/foryou-disco-freio.png"], 
+            desconto: 24, tipo: "nacional", 
+            descricao: "Óleo de motor 10W40 Magnatec, proteção avançada.", 
+            garantia: "N/A", material: "Sintético",
+            especificacoes: { Material: "Sintético", Viscosidade: "10W40", "Volume": "5L", Garantia: "N/A" },
+            faq: [
+                { pergunta: "🔧 Serve em qualquer carro?", resposta: "Recomendado para motores a gasolina que usam 10W40." },
+                { pergunta: "⏱️ Entrega?", resposta: "Produto em Moçambique, entrega 2-5 dias úteis." },
+                { pergunta: "🛢️ Quantos km dura?", resposta: "Recomenda-se troca a cada 5.000-7.000km." }
+            ]
+        },
+        
+        // Para Você - Adicionando FAQ para todos
+        f1: { id: "f1", nome: "Pneu Royalblack 195/65R15", preco: 15500, oldPrice: 19900, avaliacao: 4.8, vendidos: 156, imagem: "imagens/foryou-suspensao.png", imagens: ["imagens/foryou-suspensao.png"], desconto: 22, tipo: "nacional", descricao: "Pneu Royalblack de alta durabilidade e aderência.", garantia: "N/A", material: "Borracha", especificacoes: { Material: "Borracha", "Tamanho": "195/65R15", "Índice de carga": "91V" }, faq: [{ pergunta: "🔧 Serve no meu carro?", resposta: "Consulte a medida do seu pneu atual. 195/65R15 é comum em sedans compactos." }, { pergunta: "⏱️ Entrega?", resposta: "2-5 dias úteis (produto em Moçambique)." }] },
+        f2: { id: "f2", nome: "Oleo 10W40 Magnatec 5L", preco: 12900, oldPrice: 16900, avaliacao: 4.7, vendidos: 203, imagem: "imagens/foryou-disco-freio.png", imagens: ["imagens/foryou-disco-freio.png"], desconto: 24, tipo: "nacional", descricao: "Óleo de motor 10W40 Magnatec, proteção avançada.", garantia: "N/A", material: "Sintético", especificacoes: { Material: "Sintético", Viscosidade: "10W40", "Volume": "5L" }, faq: [{ pergunta: "🔧 Qual a validade?", resposta: "O óleo tem validade de 3 anos a partir da fabricação." }, { pergunta: "⏱️ Entrega?", resposta: "2-5 dias úteis." }] },
+        f3: { id: "f3", nome: "Shampoo Wash Wax Splash", preco: 34500, oldPrice: 44900, avaliacao: 4.9, vendidos: 89, imagem: "imagens/foryou-chip-tuning.png", imagens: ["imagens/foryou-chip-tuning.png"], desconto: 23, tipo: "nacional", descricao: "Shampoo automotivo Wash Wax, limpeza e brilho.", garantia: "N/A", material: "Líquido", especificacoes: { Material: "Líquido", "Volume": "5L", Aplicação: "Externa" }, faq: [{ pergunta: "🧼 Remove cera antiga?", resposta: "Sim, limpa profundamente sem remover a cera protetora." }, { pergunta: "⏱️ Entrega?", resposta: "2-5 dias úteis." }] },
+        f4: { id: "f4", nome: "Lampadas H4 Spartans", preco: 9900, oldPrice: 13900, avaliacao: 4.6, vendidos: 312, imagem: "imagens/foryou-bateria.png", imagens: ["imagens/foryou-bateria.png"], desconto: 29, tipo: "importado", descricao: "Lâmpadas H4 100/90W, alta luminosidade.", garantia: "6 meses", material: "Halógena", especificacoes: { Material: "Halógena", "Potência": "100/90W", "Tensão": "12V" }, faq: [{ pergunta: "🔧 É permitido?", resposta: "Consulte a legislação local sobre uso de lâmpadas de alta potência." }, { pergunta: "⏱️ Prazo?", resposta: "Importado: 20-40 dias úteis." }] },
+        f5: { id: "f5", nome: "Filtro de oleo Ford Ranger", preco: 4500, oldPrice: 6900, avaliacao: 4.9, vendidos: 678, imagem: "imagens/foryou-oleo.png", imagens: ["imagens/foryou-oleo.png"], desconto: 35, tipo: "nacional", descricao: "Filtro de óleo específico para Ford Ranger.", garantia: "6 meses", material: "Papel de Alta Filtragem", especificacoes: { Material: "Papel de Alta Filtragem", "Modelo": "Ford Ranger", "Eficiência": "99%" }, faq: [{ pergunta: "🔧 Serve em qual ano?", resposta: "Compatível com Ford Ranger 2012-2022." }, { pergunta: "⏱️ Entrega?", resposta: "2-5 dias úteis." }] },
+        f6: { id: "f6", nome: "Filtro de ar Gud Toyota", preco: 49900, oldPrice: 69900, avaliacao: 4.8, vendidos: 45, imagem: "imagens/foryou-envelopamento.png", imagens: ["imagens/foryou-envelopamento.png"], desconto: 29, tipo: "importado", descricao: "Filtro de ar Gud para Toyota, alta performance.", garantia: "12 meses", material: "Algodão", especificacoes: { Material: "Algodão", "Modelo": "Toyota Corolla", "Reutilizável": "Sim" }, faq: [{ pergunta: "🔧 Pode lavar?", resposta: "Sim, é reutilizável! Lave com kit específico a cada 10.000km." }, { pergunta: "⏱️ Prazo?", resposta: "20-40 dias úteis." }] },
+        f7: { id: "f7", nome: "Bateria BigBoss 45ah", preco: 27900, oldPrice: 35900, avaliacao: 4.8, vendidos: 123, imagem: "imagens/foryou-multimidias.png", imagens: ["imagens/foryou-multimidias.png"], desconto: 22, tipo: "nacional", descricao: "Bateria BigBoss 45ah, alta durabilidade.", garantia: "12 meses", material: "Chumbo-Ácido", especificacoes: { Material: "Chumbo-Ácido", "Capacidade": "45Ah", "Tensão": "12V" }, faq: [{ pergunta: "🔧 Serve em qual carro?", resposta: "Ideal para carros 1.0 a 1.6." }, { pergunta: "⏱️ Entrega?", resposta: "2-5 dias úteis." }] },
+        f8: { id: "f8", nome: "Oleo 10W40 Magnatec 5L", preco: 3900, oldPrice: 5900, avaliacao: 4.7, vendidos: 445, imagem: "imagens/foryou-neons.png", imagens: ["imagens/foryou-neons.png"], desconto: 34, tipo: "nacional", descricao: "Óleo de motor 10W40 Magnatec, proteção avançada.", garantia: "N/A", material: "Sintético", especificacoes: { Material: "Sintético", Viscosidade: "10W40", "Volume": "5L" }, faq: [{ pergunta: "🔧 É original?", resposta: "Sim, produto original Castrol Magnatec." }, { pergunta: "⏱️ Entrega?", resposta: "2-5 dias úteis." }] }
+    };
+
+    // Funções
+    function formatarPreco(valor) {
+        return valor.toLocaleString('pt') + ' MT';
+    }
+
+    function gerarEstrelas(nota) {
+        let estrelas = '';
+        for (let i = 0; i < Math.floor(nota); i++) estrelas += '★';
+        if (nota % 1 >= 0.5) estrelas += '½';
+        for (let i = 0; i < 5 - Math.ceil(nota); i++) estrelas += '☆';
+        return estrelas;
+    }
+
+    // ========== FUNÇÕES DO CARRINHO ==========
+    function adicionarAoCarrinho(produto) {
+        let carrinho = JSON.parse(localStorage.getItem('space_carrinho')) || [];
+        
+        const existe = carrinho.find(item => item.id === produto.id);
+        
+        if (existe) {
+            existe.quantidade = (existe.quantidade || 1) + 1;
+        } else {
+            carrinho.push({
+                id: produto.id,
+                nome: produto.nome,
+                preco: produto.preco,
+                imagem: produto.imagem,
+                quantidade: 1
+            });
+        }
+        
+        localStorage.setItem('space_carrinho', JSON.stringify(carrinho));
+        
+        const totalItens = carrinho.reduce((total, item) => total + (item.quantidade || 1), 0);
+        alert(`✅ Produto adicionado ao carrinho!\n📦 Total: ${totalItens} item(ns)`);
+        
+        // Atualiza o badge na página principal (se estiver aberta)
+        localStorage.setItem('space_carrinho_total', totalItens);
+    }
+
+    // Pegar ID da URL
+    function getProdutoId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('id');
+    }
+
+    // Gerar FAQ HTML
+    function gerarFAQ(faq) {
+        if (!faq || faq.length === 0) {
+            return '<p style="padding: 20px; text-align: center;">Nenhuma pergunta frequente cadastrada para este produto.</p>';
+        }
+        
+        return faq.map((item, index) => `
+            <div class="faq-item">
+                <div class="faq-question" data-index="${index}">
+                    ${item.pergunta}
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer" id="faq-answer-${index}">
+                    ${item.resposta}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Carregar produto
+    function carregarProduto() {
+        const id = getProdutoId();
+        const produto = produtosDB[id];
+        
+        if (!produto) {
+            document.getElementById('productPage').innerHTML = `
+                <div style="text-align: center; padding: 50px;">
+                    <h2>Produto não encontrado</h2>
+                    <button class="back-button" onclick="history.back()" style="margin-top: 20px;">← Voltar</button>
+                </div>
+            `;
+            return;
+        }
+
+        const isNacional = produto.tipo === 'nacional';
+        
+        const badgesHtml = isNacional ? `
+            <div class="info-badge entrega-rapida">⚡ Entrega rápida - Moçambique</div>
+            <div class="info-badge">✅ Em stock nacional</div>
+        ` : `
+            <div class="info-badge sob-encomenda">🌍 Sob encomenda - Importação</div>
+            <div class="info-badge">📦 Produto disponível para importação</div>
+        `;
+        
+        const deliveryHtml = isNacional ? `
+            <div class="delivery-info">
+                <div class="delivery-title">📦 Informações de entrega</div>
+                <div class="delivery-detail">📍 Enviado de: Moçambique</div>
+                <div class="delivery-detail">⏱️ Prazo estimado: 2 a 5 dias úteis</div>
+                <div class="delivery-detail">🔍 Rastreio disponível</div>
+                <div class="delivery-note">💡 Produto em stock nacional - Entrega rápida</div>
+            </div>
+        ` : `
+            <div class="delivery-info">
+                <div class="delivery-title">📦 Informações de entrega</div>
+                <div class="delivery-detail">📍 Produto importado sob encomenda</div>
+                <div class="delivery-detail">⏱️ Prazo estimado: 20 a 40 dias úteis</div>
+                <div class="delivery-detail">🔍 Rastreio internacional + local</div>
+                <div class="delivery-note">💡 Importamos para si - Suporte em português</div>
+            </div>
+        `;
+        
+        let specsHtml = '';
+        for (const [key, value] of Object.entries(produto.especificacoes)) {
+            specsHtml += `<tr><td>${key}</td><td>${value}</td></tr>`;
+        }
+        
+        const faqHtml = gerarFAQ(produto.faq);
+        
+        const html = `
+            <div class="product-grid">
+                <div class="gallery">
+                    <div class="main-image">
+                        <img src="${produto.imagem}" alt="${produto.nome}" id="mainImg" onerror="this.src='https://placehold.co/500x500?text=Produto'">
+                    </div>
+                    <div class="thumb-list" id="thumbList">
+                        ${produto.imagens.map((img, i) => `
+                            <div class="thumb ${i === 0 ? 'active' : ''}" data-img="${img}">
+                                <img src="${img}" onerror="this.src='https://placehold.co/80x80?text=Img'">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="brand">SPACE AUTO BOOST</div>
+                    <h1 class="title">${produto.nome}</h1>
+                    
+                    <div class="info-badges">
+                        ${badgesHtml}
+                    </div>
+                    
+                    <div class="rating-section">
+                        <div class="stars">${gerarEstrelas(produto.avaliacao)}</div>
+                        <span>(${produto.avaliacao} de 5)</span>
+                        <span>• ${produto.vendidos} vendidos</span>
+                    </div>
+                    
+                    <div class="price-section">
+                        <span class="current-price">${formatarPreco(produto.preco)}</span>
+                        <span class="old-price">${formatarPreco(produto.oldPrice)}</span>
+                        <span class="discount">-${produto.desconto}% OFF</span>
+                        <div style="margin-top: 8px;">ou 3x de ${formatarPreco(produto.preco / 3)} sem juros</div>
+                    </div>
+                    
+                    ${deliveryHtml}
+                    
+                    <div class="action-buttons">
+                        <button class="btn-buy" id="buyBtn">🛒 Comprar agora</button>
+                        <button class="btn-cart" id="cartBtn">+ Adicionar ao carrinho</button>
+                    </div>
+                    
+                    <div class="trust-items">
+                        <div class="trust-item">🔒 Pagamento seguro</div>
+                        <div class="trust-item">🛡️ Proteção ao comprador</div>
+                        <div class="trust-item">💰 Garantia de reembolso</div>
+                        <div class="trust-item">⭐ ${produto.garantia} de garantia</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tabs-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="details">📋 Detalhes</button>
+                    <button class="tab-btn" data-tab="specs">⚙️ Especificações</button>
+                    <button class="tab-btn" data-tab="reviews">⭐ Avaliações</button>
+                    <button class="tab-btn" data-tab="faq">❓ FAQ</button>
+                </div>
+                
+                <div class="tab-content active" id="details">
+                    <div style="padding: 20px; line-height: 1.8;">
+                        <p>${produto.descricao}</p>
+                        <br>
+                        <p>✅ Material: ${produto.material}</p>
+                        <p>✅ Garantia: ${produto.garantia}</p>
+                        <p>✅ Produto de alta qualidade e performance</p>
+                        <p>✅ Testado e aprovado por especialistas</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="specs">
+                    <table class="specs-table">
+                        ${specsHtml}
+                    </table>
+                </div>
+                
+                <div class="tab-content" id="reviews">
+                    <div class="review-card">
+                        <div style="font-weight: 700;">Carlos Silva</div>
+                        <div class="stars">★★★★★</div>
+                        <div>Produto excelente! Superou minhas expectativas. Entrega rápida.</div>
+                        <div style="font-size: 12px; color: #999; margin-top: 8px;">Há 3 dias</div>
+                    </div>
+                    <div class="review-card">
+                        <div style="font-weight: 700;">Amélia Santos</div>
+                        <div class="stars">★★★★☆</div>
+                        <div>Muito bom, qualidade excelente. Recomendo!</div>
+                        <div style="font-size: 12px; color: #999; margin-top: 8px;">Há 1 semana</div>
+                    </div>
+                    <div class="review-card">
+                        <div style="font-weight: 700;">João Manhiça</div>
+                        <div class="stars">★★★★★</div>
+                        <div>Melhor produto que já usei. Vale cada metical!</div>
+                        <div style="font-size: 12px; color: #999; margin-top: 8px;">Há 2 semanas</div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="faq">
+                    <div style="padding: 20px;">
+                        ${faqHtml}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('productPage').innerHTML = html;
+        
+        // Inicializar galeria
+        const thumbs = document.querySelectorAll('.thumb');
+        const mainImg = document.getElementById('mainImg');
+        thumbs.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                thumbs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                const imgSrc = this.getAttribute('data-img');
+                if (imgSrc && mainImg) mainImg.src = imgSrc;
+            });
+        });
+        
+        // Inicializar tabs
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Inicializar FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(q => {
+            q.addEventListener('click', function() {
+                const index = this.getAttribute('data-index');
+                const answer = document.getElementById(`faq-answer-${index}`);
+                const icon = this.querySelector('.faq-icon');
+                answer.classList.toggle('show');
+                icon.classList.toggle('rotated');
+            });
+        });
+        
+        // Botões - INTEGRADOS COM O CARRINHO
+        document.getElementById('buyBtn')?.addEventListener('click', () => {
+            adicionarAoCarrinho({
+                id: produto.id,
+                nome: produto.nome,
+                preco: produto.preco,
+                imagem: produto.imagem
+            });
+            // Redireciona para o carrinho
+            window.location.href = 'carrinho.html';
+        });
+        
+        document.getElementById('cartBtn')?.addEventListener('click', () => {
+            adicionarAoCarrinho({
+                id: produto.id,
+                nome: produto.nome,
+                preco: produto.preco,
+                imagem: produto.imagem
+            });
+        });
+    }
+    
+    // Carregar ao iniciar
+    carregarProduto();
+</script>
+</body>
+</html>
